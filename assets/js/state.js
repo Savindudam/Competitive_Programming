@@ -1,4 +1,4 @@
-var STATE = {
+window.STATE = {
   user:            null,
   tutorials:       [],
   progress:        {},  
@@ -7,15 +7,13 @@ var STATE = {
   previousPage:    'tutorials'
 };
 
+window.isCompleted  = function(id) { return STATE.progress[id] === 'done'; };
+window.isSaved      = function(id) { return STATE.progress[id] === 'saved'; };
+window.isInProgress = function(id) { return STATE.progress[id] === 'in-progress'; };
 
+window.getCompleted  = function() { return Object.keys(STATE.progress).filter(function(id) { return STATE.progress[id] === 'done'; }); };
+window.getSaved      = function() { return Object.keys(STATE.progress).filter(function(id) { return STATE.progress[id] === 'saved'; }); };
+window.getInProgress = function() { return Object.keys(STATE.progress).filter(function(id) { return STATE.progress[id] === 'in-progress'; }); };
 
-function isCompleted(id)  { return STATE.progress[id] === 'done'; }
-function isSaved(id)      { return STATE.progress[id] === 'saved'; }
-function isInProgress(id) { return STATE.progress[id] === 'in-progress'; }
-
-function getCompleted()   { return Object.keys(STATE.progress).filter(function(id) { return STATE.progress[id] === 'done'; }); }
-function getSaved()       { return Object.keys(STATE.progress).filter(function(id) { return STATE.progress[id] === 'saved'; }); }
-function getInProgress()  { return Object.keys(STATE.progress).filter(function(id) { return STATE.progress[id] === 'in-progress'; }); }
-
-function loadState() {}
-function saveState() {}
+window.loadState = function() {};
+window.saveState = function() {};
