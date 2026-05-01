@@ -170,3 +170,4 @@ function friendlyError(code) {
     'auth/network-request-failed': 'Network error. Check your connection.',
   })[code] || 'Something went wrong. Please try again.';
 }
+initAuthListener();

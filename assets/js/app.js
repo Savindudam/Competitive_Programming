@@ -15,5 +15,3 @@ window.initApp = function() {
   updateProgressBar();
   showPage('home');
 };
-
-initAuthListener();
