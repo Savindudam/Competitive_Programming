@@ -72,7 +72,128 @@ int main(){
 &nbsp;
 <blockquote>The best tool is the one you know how to use. Spend time mastering your editor!</blockquote>
 `
-  }
+  },
+
+
+  {
+    slug: "Introduction to Competitive programming",
+    title: "Competitive programming Intro",
+    topic: "Introduction",
+    difficulty: "Easy",
+    readMinutes: 5,
+    date: "2026-05-02",
+    excerpt: "A full intro about the section Competitive Programming.",
+    tags: ["Intro","syllabus","Info"],
+    html: `
+    <h1>Introduction</h1>
+    Competitive programming combines <strong>two topics</strong>: </br>
+        &nbsp;&nbsp; &nbsp;&nbsp; 1. Designing the Algorithms.</br>
+        &nbsp;&nbsp; &nbsp;&nbsp; 2. Implementation of the Algorithms.
+    
+    <h2>Designing the algorithms</h2>
+    <ul><li>The design of algorithms consists of problem solving and mathematical
+thinking. Skills for analyzing problems and solving them creatively are needed.
+An algorithm for solving a problem has to be both correct and efficient, and the
+core of the problem is often about inventing an efficient algorithm.</li>
+        <li>Theoretical knowledge of algorithms is important to competitive programmers.
+Typically, a solution to a problem is a combination of well-known techniques and
+new insights. The techniques that appear in competitive programming also form
+the basis for the scientific research of algorithms</li>
+        <li>A good coding style in contests is straightfoward and concise. Since the
+programs should be written quickly, because there is not much time available. Unlike in 
+traditional software engineering, the programs are short (usually at most a few 
+hudred lines of code), and they do not need to be maintained after the contest.
+        <li> The get-to-gether or the collection of the such programmers happens once a 
+year in name of <strong>IOI</strong> in various countries.( <a target="_blank" href="https://ioinformatics.org/">click to find out more</a> )
+        <li> Through this blog service you will be able to learn the full thing into competitive programming and be a legend coder.
+
+</ul>
+
+    
+    
+    `
+  },
+
+
+  {
+    slug: "Basics to remember in cpp",
+    title: "Basics functions in c++",
+    topic: "First step for coding",
+    difficulty: "Easy",
+    readMinutes: 10,
+    date: "2026-05-02",
+    excerpt: "Let's get into the beautiful world or maybe not beautiful but the world of coding .",
+    tags: ["basics","syllabus","cpp"],
+    html: `
+    <h2>First ever thing to rememeber</h2>
+    <ul><li>
+    In any coding Language theres a main script that you will need to include to make the program work such like the modules we need to import to make a program work. So first of all let's remember the competitive programming basic coding template</li>
+    <pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+ 
+ // space to write the code
+ 
+return 0;
+
+}</code></pre>
+<li>So to make a simple code from cpp we need to know much more than the code snippet so let's learn about some functions we can use : </li>
+<ol>
+<li><strong>Data Types</strong> in c++ :
+There are 5 basic types of Data Types in c++ and they are,
+<ul><li><code>int</code> = This data type means any number without decimals.</li>
+<li><code>float</code> = This data type is the numbers with any decimal values.</li>
+<li><code>char</code> = In this data type we can store any kind of character once.</li>
+<li><code>bool</code> = This holds the two values truth or false.</li>
+<li><code>string</code> = This data type holds any kind of long word or a sentence</li>
+</ul>
+
+<li><code>std::cout</code> - so this is like the write function in the c++ programming so to use this we can do it like this :
+<pre>#include <bits/stdc++.h> &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+ 
+  cout<<"Hello World";
+  return 0;
+
+}</pre>
+<ul><li>So now the output will be <code>Hello World</code> and now you might be wondering why didn't I use the full word <code>std::cout</code> to write this code the basic reason for this is because I already configured the std as a namespace so we won't need to write it over and over.</li>
+<li>The main reason to add the namespace was to make the code smaller and easier to read and code it's because in competitive programming time is the most valuable thing to a contestant.</li></ul>
+<li><code>std::cin</code> - And this function is clearly as you thought the input fuction for the c++ programming lets now learn to use it :
+<pre>
+#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  string name;
+  cin>>name;
+  cout&lt&ltname;
+  return 0;
+
+}</pre>
+<ul>
+<li>So for this code think we input the single word <code>Hello</code> this will output the name back but the problem hits when you need to input a full sentence by yourself for that you should use the getline function as below, </li></ul>
+<pre>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  string name;
+  getline(cin,name);
+  cout&lt&ltname;
+  return 0;
+
+}</pre>
+<ul><li>So now you're able to fully input a sentence and get the same output using the getline and cout fuction.</li></ul> 
+</br>
+So that's all for the basic input and output functions of c++ language. Move along to learn more.
+    
+    
+    
+    `}
+
+
 
 ]
 
