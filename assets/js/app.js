@@ -1,4 +1,4 @@
-function initApp() {
+window.initApp = function() {
   var u = STATE.user;
 
   document.getElementById('welcome-name').textContent = 'Welcome back, ' + u.name + '.';
@@ -14,6 +14,6 @@ function initApp() {
   renderHomeRecent();
   updateProgressBar();
   showPage('home');
-}
+};
 
 initAuthListener();

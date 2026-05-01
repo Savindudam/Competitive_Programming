@@ -1,13 +1,13 @@
 var TUTORIALS_KEY = 'cpblog_tutorials';
 
-function loadTutorials() {
+window.loadTutorials = function() {
   var raw = localStorage.getItem(TUTORIALS_KEY);
   if (raw) {
     try { STATE.tutorials = JSON.parse(raw); return; } catch(e) {}
   }
   STATE.tutorials = getSeedTutorials();
   saveTutorials();
-}
+};
 
 function saveTutorials() {
   localStorage.setItem(TUTORIALS_KEY, JSON.stringify(STATE.tutorials));
@@ -51,7 +51,7 @@ function getSeedTutorials() {
   ];
 }
 
-function applyFilters() {
+window.applyFilters = function() {
   var search = document.getElementById('tut-search').value.toLowerCase();
   var cat    = document.getElementById('tut-cat').value;
   var level  = STATE.levelFilter;
@@ -61,16 +61,16 @@ function applyFilters() {
     var matchLevel  = level === 'All' || t.level === level;
     return matchSearch && matchCat && matchLevel;
   });
-}
+};
 
-function setLevelFilter(btn, level) {
+window.setLevelFilter = function(btn, level) {
   STATE.levelFilter = level;
   document.querySelectorAll('.lvl-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
   renderTutorialList(applyFilters());
-}
+};
 
-function renderTutorialList(list) {
+window.renderTutorialList = function(list) {
   var el = document.getElementById('tut-list');
   if (!list.length) {
     el.innerHTML = '<div class="empty-state">No tutorials found.</div>';
@@ -86,8 +86,8 @@ function renderTutorialList(list) {
         '<div class="tut-card-title">' + escHtml(t.title) + '</div>' +
         '<div class="tut-card-excerpt">' + escHtml(t.excerpt) + '</div>' +
         '<div class="tut-card-tags">' +
-          '<span class="tag tag-cat">'                                      + escHtml(t.category) + '</span>' +
-          '<span class="tag tag-' + t.level.toLowerCase()      + '">' + t.level      + '</span>' +
+          '<span class="tag tag-cat">' + escHtml(t.category) + '</span>' +
+          '<span class="tag tag-' + t.level.toLowerCase() + '">' + t.level + '</span>' +
           '<span class="tag tag-' + t.difficulty.toLowerCase() + '">' + t.difficulty + '</span>' +
         '</div>' +
       '</div>' +
@@ -97,25 +97,24 @@ function renderTutorialList(list) {
       '</div>' +
     '</div>';
   }).join('');
-}
+};
 
-function openDetail(id) {
+window.openDetail = function(id) {
   var tut = STATE.tutorials.find(function(t) { return t.id === id; });
   if (!tut) return;
 
   STATE.currentDetailId = id;
 
-  // Mark as in-progress the moment they open it (if not already done or in-progress)
   if (!isCompleted(id) && !isInProgress(id)) {
     saveTutorialProgress(id, 'in-progress');
   }
 
   document.getElementById('detail-title').textContent = tut.title;
   document.getElementById('detail-meta').innerHTML =
-    '<span class="tag tag-cat">'                                      + escHtml(tut.category)   + '</span>' +
-    '<span class="tag tag-' + tut.level.toLowerCase()      + '">' + tut.level      + '</span>' +
+    '<span class="tag tag-cat">' + escHtml(tut.category) + '</span>' +
+    '<span class="tag tag-' + tut.level.toLowerCase() + '">' + tut.level + '</span>' +
     '<span class="tag tag-' + tut.difficulty.toLowerCase() + '">' + tut.difficulty + '</span>' +
-    '<span class="tag tag-cat" style="margin-left:4px">'             + formatDate(tut.date)     + '</span>';
+    '<span class="tag tag-cat" style="margin-left:4px">' + formatDate(tut.date) + '</span>';
 
   document.getElementById('detail-body').innerHTML = tut.body;
 
@@ -123,26 +122,26 @@ function openDetail(id) {
   var btnSave     = document.getElementById('btn-save');
 
   if (isCompleted(id)) {
-    btnComplete.textContent    = 'Completed';
-    btnComplete.style.opacity  = '0.5';
-    btnComplete.style.cursor   = 'default';
+    btnComplete.textContent   = 'Completed';
+    btnComplete.style.opacity = '0.5';
+    btnComplete.style.cursor  = 'default';
   } else {
-    btnComplete.textContent    = 'Mark as Complete';
-    btnComplete.style.opacity  = '1';
-    btnComplete.style.cursor   = 'pointer';
+    btnComplete.textContent   = 'Mark as Complete';
+    btnComplete.style.opacity = '1';
+    btnComplete.style.cursor  = 'pointer';
   }
 
   btnSave.textContent = isSaved(id) ? 'Unsave' : 'Save';
 
   STATE.previousPage = document.querySelector('.page.active').id.replace('page-', '');
   showPage('detail');
-}
+};
 
-function backFromDetail() {
+window.backFromDetail = function() {
   showPage(STATE.previousPage || 'tutorials');
-}
+};
 
-function markComplete() {
+window.markComplete = function() {
   var id = STATE.currentDetailId;
   if (!id || isCompleted(id)) return;
 
@@ -154,9 +153,9 @@ function markComplete() {
 
   updateProgressBar();
   showToast('Tutorial marked as complete.', 'ok');
-}
+};
 
-function toggleSave() {
+window.toggleSave = function() {
   var id = STATE.currentDetailId;
   if (!id) return;
 
@@ -169,9 +168,9 @@ function toggleSave() {
     document.getElementById('btn-save').textContent = 'Unsave';
     showToast('Tutorial saved.', 'ok');
   }
-}
+};
 
-function adminCreate() {
+window.adminCreate = function() {
   if (!STATE.user || STATE.user.role !== 'admin') return;
 
   var title     = document.getElementById('adm-title').value.trim();
@@ -202,9 +201,9 @@ function adminCreate() {
   document.getElementById('adm-slug').value    = '';
 
   showToast('Tutorial published successfully.', 'ok');
-}
+};
 
-function renderAdminList() {
+window.renderAdminList = function() {
   var el = document.getElementById('admin-tut-list');
   if (!el) return;
   if (!STATE.tutorials.length) {
@@ -213,20 +212,20 @@ function renderAdminList() {
   }
   el.innerHTML = STATE.tutorials.map(function(t) {
     return '<div class="admin-tut-item">' +
-      '<div class="admin-tut-title">'  + escHtml(t.title) + '</div>' +
-      '<div class="admin-tut-meta">'   + t.category + ' | ' + t.level + ' | ' + formatDate(t.date) + '</div>' +
+      '<div class="admin-tut-title">' + escHtml(t.title) + '</div>' +
+      '<div class="admin-tut-meta">' + t.category + ' | ' + t.level + ' | ' + formatDate(t.date) + '</div>' +
       '<button class="btn btn-danger" style="width:auto;padding:6px 12px;font-size:.78rem" onclick="adminDelete(\'' + t.id + '\')">Delete</button>' +
     '</div>';
   }).join('');
-}
+};
 
-function adminDelete(id) {
+window.adminDelete = function(id) {
   STATE.tutorials = STATE.tutorials.filter(function(t) { return t.id !== id; });
   saveTutorials();
   renderAdminList();
   renderHomeRecent();
   showToast('Tutorial deleted.', 'err');
-}
+};
 
 function escHtml(str) {
   return String(str)

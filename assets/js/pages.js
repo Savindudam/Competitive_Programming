@@ -1,4 +1,4 @@
-function renderProfile() {
+window.renderProfile = function() {
   var u = STATE.user;
   if (!u) return;
 
@@ -7,9 +7,9 @@ function renderProfile() {
   document.getElementById('prof-joined').textContent = formatDate(u.joined);
   document.getElementById('prof-role').textContent   = u.role || 'user';
 
-  var done     = getCompleted();
-  var inProg   = getInProgress();
-  var saved    = getSaved();
+  var done   = getCompleted();
+  var inProg = getInProgress();
+  var saved  = getSaved();
 
   document.getElementById('stat-done').textContent  = done.length;
   document.getElementById('stat-prog').textContent  = inProg.length;
@@ -29,9 +29,9 @@ function renderProfile() {
       '</div>';
     }).join('');
   }
-}
+};
 
-function renderHomeRecent() {
+window.renderHomeRecent = function() {
   var el = document.getElementById('home-recent');
   if (!el) return;
   var recent = STATE.tutorials.slice(0, 5);
@@ -49,24 +49,24 @@ function renderHomeRecent() {
       (isCompleted(t.id) ? '<div class="status-dot complete"></div>' : '') +
     '</div>';
   }).join('');
-}
+};
 
-function updateProgressBar() {
+window.updateProgressBar = function() {
   var total = STATE.tutorials.length;
   var done  = getCompleted().length;
   var pct   = total ? Math.round((done / total) * 100) : 0;
   var numEl = document.getElementById('progress-num');
   var barEl = document.getElementById('progress-bar');
-  if (numEl) numEl.textContent  = done + ' / ' + total;
-  if (barEl) barEl.style.width  = pct + '%';
-}
+  if (numEl) numEl.textContent = done + ' / ' + total;
+  if (barEl) barEl.style.width = pct + '%';
+};
 
-function toggleSetting(id) {
+window.toggleSetting = function(id) {
   var el = document.getElementById(id);
   if (el) el.classList.toggle('on');
-}
+};
 
-function showToast(msg, type) {
+window.showToast = function(msg, type) {
   var container = document.getElementById('toast-container');
   var t = document.createElement('div');
   t.className   = 'toast ' + (type || 'info');
@@ -77,4 +77,4 @@ function showToast(msg, type) {
     t.style.transition = 'opacity 0.3s';
     setTimeout(function() { t.remove(); }, 300);
   }, 3000);
-}
+};
