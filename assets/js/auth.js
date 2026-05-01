@@ -63,6 +63,7 @@ async function syncUserProfile(firebaseUser) {
 
   await loadUserProgress(firebaseUser.uid);
 }
+
 async function loadUserProgress(uid) {
   const snap = await getDocs(collection(db, 'users', uid, 'progress'));
   STATE.progress = {};
@@ -80,6 +81,7 @@ window.saveTutorialProgress = async function(tutorialId, status) {
     STATE.progress[tutorialId] = status;
   }
 };
+
 window.doLogin = async function() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
@@ -91,7 +93,7 @@ window.doLogin = async function() {
   try {
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     await syncUserProfile(cred.user);
-    onAuthSuccess();
+    await onAuthSuccess();
   } catch (e) {
     err.textContent = friendlyError(e.code);
   }
@@ -111,7 +113,7 @@ window.doRegister = async function() {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
     await syncUserProfile(cred.user);
-    onAuthSuccess();
+    await onAuthSuccess();
   } catch (e) {
     err.textContent = friendlyError(e.code);
   }
@@ -123,13 +125,14 @@ window.doGoogleSignIn = async function() {
   try {
     const cred = await signInWithPopup(auth, googleProvider);
     await syncUserProfile(cred.user);
-    onAuthSuccess();
+    await onAuthSuccess();
   } catch (e) {
     if (e.code !== 'auth/popup-closed-by-user') {
       err.textContent = friendlyError(e.code);
     }
   }
 };
+
 window.doLogout = async function() {
   await signOut(auth);
   STATE.user     = null;
@@ -145,42 +148,44 @@ window.initAuthListener = function() {
       document.getElementById('auth-overlay').style.display = 'none';
       document.getElementById('app').style.display          = 'flex';
       syncSettingsUI();
-      if (typeof loadState  === 'function') loadState();
-      if (typeof initApp    === 'function') initApp();
+      if (typeof loadState === 'function') loadState();
+      if (typeof initApp === 'function') await initApp();
     } else {
       document.getElementById('auth-overlay').style.display = 'flex';
       document.getElementById('app').style.display          = 'none';
     }
   });
 };
-function onAuthSuccess() {
-  document.getElementById("auth-overlay").style.display = "none";
-  document.getElementById("app").style.display          = "flex";
+
+async function onAuthSuccess() {
+  document.getElementById('auth-overlay').style.display = 'none';
+  document.getElementById('app').style.display          = 'flex';
   syncSettingsUI();
-  if (typeof loadState === "function") loadState();
-  if (typeof initApp   === "function") initApp();
+  if (typeof loadState === 'function') loadState();
+  if (typeof initApp === 'function') await initApp();
 }
 
 function syncSettingsUI() {
-  var tog = document.getElementById("tog-email");
+  var tog = document.getElementById('tog-email');
   if (!tog || !STATE.user) return;
-  if (STATE.user.email_notifications) { tog.classList.add("on"); }
-  else { tog.classList.remove("on"); }
+  if (STATE.user.email_notifications) { tog.classList.add('on'); }
+  else { tog.classList.remove('on'); }
 }
 
 window.toggleSetting = async function(id) {
   var el = document.getElementById(id);
   if (!el) return;
-  el.classList.toggle("on");
-  if (id === "tog-email" && STATE.user) {
-    var newVal = el.classList.contains("on");
+  el.classList.toggle('on');
+  if (id === 'tog-email' && STATE.user) {
+    var newVal = el.classList.contains('on');
     STATE.user.email_notifications = newVal;
     try {
-      var ref = doc(db, "users", STATE.user.uid);
+      var ref = doc(db, 'users', STATE.user.uid);
       await setDoc(ref, { email_notifications: newVal }, { merge: true });
-    } catch (e) { console.error("Failed to save preference:", e); }
+    } catch (e) { console.error('Failed to save preference:', e); }
   }
 };
+
 function friendlyError(code) {
   return ({
     'auth/invalid-email':          "That doesn't look like a valid email.",
@@ -193,4 +198,5 @@ function friendlyError(code) {
     'auth/network-request-failed': 'Network error. Check your connection.',
   })[code] || 'Something went wrong. Please try again.';
 }
+
 initAuthListener();
