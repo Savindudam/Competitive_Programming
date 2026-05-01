@@ -28,8 +28,8 @@
         </div>
       </div>
       <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
-        <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+        <button class="auth-tab active" onclick="switchAuthTab('login', this)">Sign In</button>
+        <button class="auth-tab" onclick="switchAuthTab('register', this)">Register</button>
       </div>
       <div class="auth-form" id="auth-login">
         <input class="auth-input" id="login-email" type="email" placeholder="Email address" />
@@ -53,7 +53,7 @@
   </div>
 </div>
 
-<div id="app">
+<div id="app" style="display:none">
   <nav id="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-logo">
@@ -331,11 +331,11 @@
 
 <div id="toast-container"></div>
 
-<script type="module" src="assets/js/state.js"></script>
+<script src="assets/js/state.js" defer></script>
 <script type="module" src="assets/js/auth.js"></script>
-<script type="module" src="assets/js/tutorials.js"></script>
-<script type="module" src="assets/js/nav.js"></script>
-<script type="module" src="assets/js/pages.js"></script>
-<script type="module" src="assets/js/app.js"></script>
+<script src="assets/js/tutorials.js" defer></script>
+<script src="assets/js/nav.js" defer></script>
+<script src="assets/js/pages.js" defer></script>
+<script src="assets/js/app.js" defer></script>
 </body>
 </html>

@@ -35,12 +35,12 @@ const auth           = getAuth(app);
 const db             = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
-window.switchAuthTab = function(tab) {
+window.switchAuthTab = function(tab, btn) {
   document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('auth-login').classList.add('hidden');
   document.getElementById('auth-register').classList.add('hidden');
   document.getElementById('auth-' + tab).classList.remove('hidden');
-  event.currentTarget.classList.add('active');
+  btn.classList.add('active');
 };
 
 async function syncUserProfile(firebaseUser) {
