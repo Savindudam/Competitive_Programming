@@ -1,54 +1,63 @@
-var TUTORIALS_KEY = 'cpblog_tutorials';
+// tutorials.js — Firestore-backed tutorial storage
+// Reads from Firestore; falls back to seed data if empty.
+// Admin create/delete write through to Firestore.
 
-window.loadTutorials = function() {
-  var raw = localStorage.getItem(TUTORIALS_KEY);
-  if (raw) {
-    try { STATE.tutorials = JSON.parse(raw); return; } catch(e) {}
-  }
-  STATE.tutorials = getSeedTutorials();
-  saveTutorials();
-};
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  query,
+  orderBy
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-function saveTutorials() {
-  localStorage.setItem(TUTORIALS_KEY, JSON.stringify(STATE.tutorials));
+let _db = null;
+function getDb() {
+  if (!_db) _db = getFirestore();
+  return _db;
 }
 
-function getSeedTutorials() {
-  return [
-    {
-      id: 'binary-search-basics',
-      title: 'Binary Search Basics',
-      category: 'Algorithms',
-      level: 'Beginner',
-      difficulty: 'Easy',
-      excerpt: 'Learn how binary search works and how to implement it cleanly in competitive programming.',
-      body: '<h2>What is Binary Search?</h2><p>Binary search is a fundamental algorithm used to locate a target value within a sorted array. Instead of checking every element, it halves the search space at each step, resulting in O(log n) time complexity.</p><h2>Implementation</h2><pre><code>int binarySearch(vector&lt;int&gt;&amp; arr, int target) {\n    int lo = 0, hi = arr.size() - 1;\n    while (lo &lt;= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] &lt; target) lo = mid + 1;\n        else hi = mid - 1;\n    }\n    return -1;\n}</code></pre><h2>When to Use</h2><p>Use binary search whenever the problem involves searching in a sorted structure, or whenever you can define a monotonic predicate to binary search on the answer.</p>',
-      date: new Date(Date.now() - 86400000 * 3).toISOString(),
-      slug: 'binary-search-basics'
-    },
-    {
-      id: 'prefix-sums',
-      title: 'Prefix Sums',
-      category: 'Arrays',
-      level: 'Beginner',
-      difficulty: 'Easy',
-      excerpt: 'A simple but powerful technique for answering range sum queries in O(1).',
-      body: '<h2>The Idea</h2><p>A prefix sum array allows you to answer the query "what is the sum of elements from index l to r?" in O(1) time, after an O(n) preprocessing step.</p><h2>Construction</h2><pre><code>vector&lt;int&gt; prefix(n + 1, 0);\nfor (int i = 0; i &lt; n; i++)\n    prefix[i + 1] = prefix[i] + arr[i];\n\nint rangeSum(int l, int r) {\n    return prefix[r + 1] - prefix[l];\n}</code></pre>',
-      date: new Date(Date.now() - 86400000 * 7).toISOString(),
-      slug: 'prefix-sums'
-    },
-    {
-      id: 'dijkstra',
-      title: "Dijkstra's Shortest Path",
-      category: 'Graphs',
-      level: 'Intermediate',
-      difficulty: 'Medium',
-      excerpt: "Master Dijkstra's algorithm for single-source shortest paths on weighted graphs.",
-      body: "<h2>Overview</h2><p>Dijkstra's algorithm finds the shortest paths from a source node to all other nodes in a graph with non-negative edge weights. It runs in O((V + E) log V) with a priority queue.</p><h2>Implementation</h2><pre><code>vector&lt;long long&gt; dijkstra(int src, vector&lt;vector&lt;pair&lt;int,int&gt;&gt;&gt;&amp; adj) {\n    int n = adj.size();\n    vector&lt;long long&gt; dist(n, LLONG_MAX);\n    priority_queue&lt;pair&lt;long long,int&gt;, vector&lt;pair&lt;long long,int&gt;&gt;, greater&lt;&gt;&gt; pq;\n    dist[src] = 0;\n    pq.push({0, src});\n    while (!pq.empty()) {\n        auto [d, u] = pq.top(); pq.pop();\n        if (d &gt; dist[u]) continue;\n        for (auto [v, w] : adj[u]) {\n            if (dist[u] + w &lt; dist[v]) {\n                dist[v] = dist[u] + w;\n                pq.push({dist[v], v});\n            }\n        }\n    }\n    return dist;\n}</code></pre>",
-      date: new Date(Date.now() - 86400000 * 14).toISOString(),
-      slug: 'dijkstra'
+window.loadTutorials = async function() {
+  try {
+    const db   = getDb();
+    const q    = query(collection(db, 'tutorials'), orderBy('date', 'desc'));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      STATE.tutorials = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      return;
     }
-  ];
+  } catch (e) {
+    console.warn('Firestore tutorial fetch failed, using seed data:', e);
+  }
+  STATE.tutorials = getSeedTutorials();
+};
+
+function getSeedTutorials() {
+  var seeds = [];
+  if (typeof TUTORIAL_REGISTRY !== 'undefined') {
+    TUTORIAL_REGISTRY.forEach(function(key) {
+      var varName = 'TUTORIAL_' + key.replace(/-/g, '_');
+      if (window[varName]) seeds.push(window[varName]);
+    });
+  }
+  if (!seeds.length) {
+    seeds = [
+      {
+        id: 'binary-search-basics',
+        title: 'Binary Search Basics',
+        category: 'Algorithms',
+        level: 'Beginner',
+        difficulty: 'Easy',
+        excerpt: 'Learn how binary search works and how to implement it cleanly in competitive programming.',
+        body: '<h2>What is Binary Search?</h2><p>Binary search locates a target in a sorted array by halving the search space — O(log n).</p><h2>Implementation</h2><pre><code>int binarySearch(vector&lt;int&gt;&amp; arr, int target) {\n    int lo = 0, hi = arr.size() - 1;\n    while (lo &lt;= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] &lt; target) lo = mid + 1;\n        else hi = mid - 1;\n    }\n    return -1;\n}</code></pre>',
+        date: new Date(Date.now() - 86400000 * 3).toISOString(),
+        slug: 'binary-search-basics'
+      }
+    ];
+  }
+  return seeds;
 }
 
 window.applyFilters = function() {
@@ -99,14 +108,15 @@ window.renderTutorialList = function(list) {
   }).join('');
 };
 
-window.openDetail = function(id) {
+window.openDetail = async function(id) {
   var tut = STATE.tutorials.find(function(t) { return t.id === id; });
   if (!tut) return;
 
   STATE.currentDetailId = id;
 
+  // Bug 8 fix: await progress save to prevent race conditions
   if (!isCompleted(id) && !isInProgress(id)) {
-    saveTutorialProgress(id, 'in-progress');
+    await saveTutorialProgress(id, 'in-progress');
   }
 
   document.getElementById('detail-title').textContent = tut.title;
@@ -130,10 +140,14 @@ window.openDetail = function(id) {
     btnComplete.style.opacity = '1';
     btnComplete.style.cursor  = 'pointer';
   }
-
   btnSave.textContent = isSaved(id) ? 'Unsave' : 'Save';
 
-  STATE.previousPage = document.querySelector('.page.active').id.replace('page-', '');
+  // Bug 10 fix: never record 'detail' as the previous page
+  var activePage = document.querySelector('.page.active');
+  if (activePage) {
+    var pg = activePage.id.replace('page-', '');
+    if (pg !== 'detail') STATE.previousPage = pg;
+  }
   showPage('detail');
 };
 
@@ -144,13 +158,10 @@ window.backFromDetail = function() {
 window.markComplete = function() {
   var id = STATE.currentDetailId;
   if (!id || isCompleted(id)) return;
-
   saveTutorialProgress(id, 'done');
-
   document.getElementById('btn-complete').textContent   = 'Completed';
   document.getElementById('btn-complete').style.opacity = '0.5';
   document.getElementById('btn-complete').style.cursor  = 'default';
-
   updateProgressBar();
   showToast('Tutorial marked as complete.', 'ok');
 };
@@ -158,7 +169,6 @@ window.markComplete = function() {
 window.toggleSave = function() {
   var id = STATE.currentDetailId;
   if (!id) return;
-
   if (isSaved(id)) {
     saveTutorialProgress(id, null);
     document.getElementById('btn-save').textContent = 'Save';
@@ -170,7 +180,8 @@ window.toggleSave = function() {
   }
 };
 
-window.adminCreate = function() {
+// Bug 7 fix: adminCreate writes to Firestore
+window.adminCreate = async function() {
   if (!STATE.user || STATE.user.role !== 'admin') return;
 
   var title     = document.getElementById('adm-title').value.trim();
@@ -187,19 +198,25 @@ window.adminCreate = function() {
   }
 
   var slug     = slugInput || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  var id       = slug + '-' + Date.now();
-  var tutorial = { id, title, category: cat, level, difficulty: diff, excerpt, body, date: new Date().toISOString(), slug };
+  var tutorial = { title, category: cat, level, difficulty: diff, excerpt, body, date: new Date().toISOString(), slug };
 
-  STATE.tutorials.unshift(tutorial);
-  saveTutorials();
+  try {
+    const db  = getDb();
+    const ref = await addDoc(collection(db, 'tutorials'), tutorial);
+    tutorial.id = ref.id;
+    STATE.tutorials.unshift(tutorial);
+  } catch (e) {
+    console.error('Firestore write failed:', e);
+    showToast('Failed to save tutorial to database.', 'err');
+    return;
+  }
+
   renderAdminList();
   renderHomeRecent();
-
   document.getElementById('adm-title').value   = '';
   document.getElementById('adm-excerpt').value = '';
   document.getElementById('adm-body').value    = '';
   document.getElementById('adm-slug').value    = '';
-
   showToast('Tutorial published successfully.', 'ok');
 };
 
@@ -219,9 +236,17 @@ window.renderAdminList = function() {
   }).join('');
 };
 
-window.adminDelete = function(id) {
+// Bug 7 fix: adminDelete removes from Firestore
+window.adminDelete = async function(id) {
+  try {
+    const db = getDb();
+    await deleteDoc(doc(db, 'tutorials', id));
+  } catch (e) {
+    console.error('Firestore delete failed:', e);
+    showToast('Failed to delete from database.', 'err');
+    return;
+  }
   STATE.tutorials = STATE.tutorials.filter(function(t) { return t.id !== id; });
-  saveTutorials();
   renderAdminList();
   renderHomeRecent();
   showToast('Tutorial deleted.', 'err');
@@ -233,14 +258,11 @@ window.escHtml = function(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
-}
+};
 
-function escHtml(str) { return window.escHtml(str); }
-
-window.formatDate = function(iso) {
-  if (!iso) return '';
-  var d = new Date(iso);
+window.formatDate = function(val) {
+  if (!val) return '';
+  var d = (val && typeof val.toDate === 'function') ? val.toDate() : new Date(val);
+  if (isNaN(d.getTime())) return '';
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-function formatDate(iso) { return window.formatDate(iso); }
+};

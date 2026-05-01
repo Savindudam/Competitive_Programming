@@ -1,4 +1,4 @@
-window.initApp = function() {
+window.initApp = async function() {
   var u = STATE.user;
 
   document.getElementById('welcome-name').textContent = 'Welcome back, ' + u.name + '.';
@@ -10,7 +10,7 @@ window.initApp = function() {
     adminNav.classList.add('hidden');
   }
 
-  loadTutorials();
+  await loadTutorials();
   renderHomeRecent();
   updateProgressBar();
   showPage('home');

@@ -61,11 +61,6 @@ window.updateProgressBar = function() {
   if (barEl) barEl.style.width = pct + '%';
 };
 
-window.toggleSetting = function(id) {
-  var el = document.getElementById(id);
-  if (el) el.classList.toggle('on');
-};
-
 window.showToast = function(msg, type) {
   var container = document.getElementById('toast-container');
   var t = document.createElement('div');

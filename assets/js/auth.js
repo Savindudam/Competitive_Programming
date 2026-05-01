@@ -144,6 +144,7 @@ window.initAuthListener = function() {
       await syncUserProfile(firebaseUser);
       document.getElementById('auth-overlay').style.display = 'none';
       document.getElementById('app').style.display          = 'flex';
+      syncSettingsUI();
       if (typeof loadState  === 'function') loadState();
       if (typeof initApp    === 'function') initApp();
     } else {
@@ -153,11 +154,33 @@ window.initAuthListener = function() {
   });
 };
 function onAuthSuccess() {
-  document.getElementById('auth-overlay').style.display = 'none';
-  document.getElementById('app').style.display          = 'flex';
-  if (typeof loadState === 'function') loadState();
-  if (typeof initApp   === 'function') initApp();
+  document.getElementById("auth-overlay").style.display = "none";
+  document.getElementById("app").style.display          = "flex";
+  syncSettingsUI();
+  if (typeof loadState === "function") loadState();
+  if (typeof initApp   === "function") initApp();
 }
+
+function syncSettingsUI() {
+  var tog = document.getElementById("tog-email");
+  if (!tog || !STATE.user) return;
+  if (STATE.user.email_notifications) { tog.classList.add("on"); }
+  else { tog.classList.remove("on"); }
+}
+
+window.toggleSetting = async function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle("on");
+  if (id === "tog-email" && STATE.user) {
+    var newVal = el.classList.contains("on");
+    STATE.user.email_notifications = newVal;
+    try {
+      var ref = doc(db, "users", STATE.user.uid);
+      await setDoc(ref, { email_notifications: newVal }, { merge: true });
+    } catch (e) { console.error("Failed to save preference:", e); }
+  }
+};
 function friendlyError(code) {
   return ({
     'auth/invalid-email':          "That doesn't look like a valid email.",
