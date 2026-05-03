@@ -1949,6 +1949,78 @@ cout &lt&lt best &lt&lt "\n";</code></pre>
 `
   },
 
+{
+    slug: "sorting-theory-bubble-and-inversions",
+    title: "Sorting Theory — Bubble Sort & Inversions",
+    topic: "Sorting",
+    difficulty: "Easy",
+    readMinutes: 8,
+    date: "2026-05-05",
+    excerpt: "Understanding the theory behind sorting, how bubble sort works and the concept of inversions which explains why O(n^2) is a lower bound for comparison-based adjacent-swap sorts.",
+    tags: ["sorting", "bubble sort", "inversions", "theory"],
+    html: `
+<p>Sorting is one of the most fundumental topics in algorithms and cp. Almost every program uses sorting at some point. Lets understand how it works from the ground up before we get to the fast algorithms.</p>
+
+<h2>The sorting problem</h2>
+<p>Given an array of n elements, sort them in increasing order. Simple to state, but theres a lot of depth in how efficently u can do it.</p>
+
+<h2>Bubble sort — the classic O(n²) algorithm</h2>
+<p>Bubble sort is the simplest sorting algorithm. It repeatedly goes through the array and swaps adjacent elements that are in the wrong order :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n;
+  cin >> n;
+  vector&ltint> arr(n);
+  for(int i = 0; i &lt n; i++) cin >> arr[i];
+  
+  for(int i = 0; i &lt n; i++){
+    for(int j = 0; j &lt n-1; j++){
+      if(arr[j] > arr[j+1]){
+        swap(arr[j], arr[j+1]);
+      }
+    }
+  }
+  
+  for(int x : arr) cout &lt&lt x &lt&lt " ";
+  cout &lt&lt "\n";
+  return 0;
+}</code></pre>
+<p>After the first pass the largest element "bubbles" to the end. After k passes the k largest elements are in their correct positions. After n passes the array is completly sorted. Its O(n^2) because of the two nested loops.</p>
+
+<h2>Why is bubble sort slow? Inversions!</h2>
+<p>An inversion is a pair of elements (arr[a], arr[b]) where a < b but arr[a] > arr[b] — meaning two elements are in the wrong order. For example in the array [1, 2, 6, 2, 3, 5] the inversions are (6,2), (6,3), (6,5). Thats 3 inversions.</p>
+<p>The key insight : every swap of adjacent elements removes EXACTLY ONE inversion. So if the array has k inversions, u need at least k swaps to sort it. In the worst case (reverse sorted array), the number of inversions is n*(n-1)/2 = O(n^2). So any algorithm that only swaps adjacent elements MUST be at least O(n^2). This is a theoreticall lower bound, not just a weakness of bubble sort.</p>
+
+<h2>Best case of bubble sort</h2>
+<p>If the array is already sorted there are 0 inversions and bubble sort does no swaps. U can optimize bubble sort to detect this and exit early :</p>
+<pre><code>for(int i = 0; i &lt n; i++){
+  bool swapped = false;
+  for(int j = 0; j &lt n-1; j++){
+    if(arr[j] > arr[j+1]){
+      swap(arr[j], arr[j+1]);
+      swapped = true;
+    }
+  }
+  if(!swapped) break; // already sorted
+}</code></pre>
+<p>With this optimization bubble sort is O(n) on an already-sorted array. But in the worst case its still O(n^2).</p>
+
+<h2>Counting inversions</h2>
+<p>Counting the number of inversions in an array is itself an interesting problem. The naive O(n^2) way is to check all pairs. But it can be done in O(n log n) using a modifeid merge sort. This is a pretty advanced technique but worth knowing exists.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Bubble sort is O(n^2) in the worst case and O(n) in the best case (already sorted).</li>
+  <li>An inversion is a pair of elements that are in the wrong order.</li>
+  <li>Any sort that only swaps adjacent elements needs at least O(n^2) swaps in the worst case.</li>
+  <li>Bubble sort is mainly taught for learning purposes — never use it in a real cp contest.</li>
+</ul>
+
+<blockquote>Understanding why simple algorithms are slow is just as importent as knowing the fast ones. It builds ur intuition for what makes an algorithm efficent in the first place.</blockquote>
+`
+  },
 
 
 ]
