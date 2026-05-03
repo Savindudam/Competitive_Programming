@@ -1360,7 +1360,7 @@ int main(){
     topic: "Mathematics",
     difficulty: "Easy",
     readMinutes: 6,
-    date: "2026-05-04",
+    date: "2026-05-03",
     excerpt: "Understanding sets, unions, intersections and why this stuff actualy matters in competitive programming.",
     tags: ["math", "sets", "theory", "basics"],
     html: `
@@ -1415,6 +1415,62 @@ int main(){
 `
   },
  
+{
+    slug: "logic-and-quantifiers-for-cp",
+    title: "Logic & Quantifiers — The Language Of Algorithms",
+    topic: "Mathematics",
+    difficulty: "Easy",
+    readMinutes: 5,
+    date: "2026-05-03",
+    excerpt: "Understanding basic logic operators and quantifiers which are used to describe algorithms and problem conditions.",
+    tags: ["math", "logic", "quantifiers", "basics"],
+    html: `
+<p>So logic is basicaly the foundation of all of computer science. When u read a problem statement u are esentialy parsing a bunch of logical conditions. Lets learn the basic stuff.</p>
+
+<h2>Logical operators</h2>
+<p>A logical expression is either true (1) or false (0). The main operators are :</p>
+<ul>
+  <li><strong>NOT (¬)</strong> : flips the value. ¬true = false, ¬false = true. In c++ this is <code>!</code></li>
+  <li><strong>AND (∧)</strong> : true only if BOTH sides are true. In c++ this is <code>&&</code></li>
+  <li><strong>OR (∨)</strong> : true if at LEAST ONE side is true. In c++ this is <code>||</code></li>
+  <li><strong>Implication (⇒)</strong> : "A implies B" means if A is true then B must be true. A⇒B is only false when A is true and B is false.</li>
+  <li><strong>Equivalence (⇔)</strong> : true when both sides have the same value. In c++ this is <code>==</code> for booleans.</li>
+</ul>
+<p>These map directly to c++ boolean operaters. So understanding this math notation makes reading algorithm descriptons much easier.</p>
+
+<h2>Quantifiers</h2>
+<p>Quantifiers are words that say "for all" or "there exists". In math notation :</p>
+<ul>
+  <li><strong>∀ (for all)</strong> : the condition holds for every element. Like "∀x, x*2 is even" means for all numbers x, x*2 is even.</li>
+  <li><strong>∃ (there exists)</strong> : at least one element satisfies the condition. Like "∃x such that x^2 = 4" means there exists a number x where x squared equals 4 (which is true, x = 2).</li>
+</ul>
+<p>In c++ code ∀ is basically a for loop that checks all elements, and ∃ is a for loop that looks for at least one element :</p>
+<pre><code>// ∀x in array: x > 0 (all elements positive)
+bool allPositive = true;
+for(int x : arr){
+  if(x &lt= 0){ allPositive = false; break; }
+}
+
+// ∃x in array: x > 0 (some element positive)
+bool somePositive = false;
+for(int x : arr){
+  if(x > 0){ somePositive = true; break; }
+}</code></pre>
+
+<h2>Predicates</h2>
+<p>A predicate is just a funtion that returns true or false depending on its input. For example P(x) = "x is a prime number" is a predicate. P(7) is true, P(8) is false. U use predicates all the time when writing conditions in ur code even if u dont call them that.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>AND = &&, OR = ||, NOT = ! in c++.</li>
+  <li>∀ means "for all" — implemented as a loop that checks everything.</li>
+  <li>∃ means "there exists" — implemented as a loop that can stop early.</li>
+  <li>Implication A⇒B is only false when A is true and B is false, not the otherway around.</li>
+</ul>
+
+<blockquote>Once u start reading algorithm proofs and problem editorals u'll see this notation constanty. Dont let it scare u — its just a precise way to say things that u already understand intuitevly.</blockquote>
+`
+  },
 
  
 
