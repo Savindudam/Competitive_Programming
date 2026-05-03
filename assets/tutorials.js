@@ -198,7 +198,7 @@ So that's all for the basic input and output functions of c++ language. Move alo
     title: "Working with Numbers in C++",
     topic: "Numbers & Mathematics",
     difficulty: "Easy",
-    readMinutes: 12,
+    readMinutes: 15,
     date: "2026-05-03",
     excerpt: "Master integer types, modular arithmetic, and floating-point operations essential for competitive programming.  (This is gonna be a long tutorial)",
     tags: ["numbers", "math", "integers", "modulo"],
@@ -388,7 +388,94 @@ int main(){
 </ul>
  
 <blockquote>In competitive programming, one overflow bug can cost you the entire contest. Always think about number ranges before writing code .........!</blockquote>
-`}
+`},
+
+
+{
+  slug: "Shortnening the code",
+  title: "Making the code short in cp",
+  topic: "shorting code",
+  difficulty: "Easy",
+  readMinutes: 10,
+  date: "2026-05-03",
+  excerpt: "Master the way of implmenting the code in a good way but short.",
+  tags: ["Type names", "macros", "maths", "typedef"],
+  html: `
+  <h2>Implementing the answer in cp .</h2>
+  So when it comes to competitive programming the solution for the question we get can be pretty long since it's the main reason we get 5 hours for like only 3 questions and now when it comes to shortening the code it can be done in few various ways.
+  <ul>
+     <li>Type names</li>
+     <li>macros</li>
+     <li>namespaces</li>
+  </ul>
+These 4 are the mostly used methods to shorten the code by many contestants since it works in much good way.
+  <ol>
+     <li><h3>Type names</h3></li>
+     Using the command <code>typedef</code> it is possible to give a shorter name to a datatype. For example , the name <code>long long</code> is so much long. So the competitors shorten it to <code>ll</code> :
+     <pre>typedef long long ll;</pre>
+     After this , the code 
+     <pre>long long a = 123456789;
+long long b=987654321;
+cout&lt&lta*b&lt&lt"\\n";</pre>
+     can be shorten as
+     <pre>typedef long long ll;
+ll a=123456789;
+ll b=987654321;
+cout&lt&lta*b&lt&lt"\\n";</pre>
+The command <code>typedef</code> can also be used with more complex type. For sample the following code gives the name vi for a vector of integers and the name pi for a pair that contains two integers.
+<pre>typedef vector<int> vi;
+typedef pair&ltint,int&gt pi ;</pre>
+   <li><h3>Macros</h3></li>
+   This is as same as the typedef but we use macros to define a fuction name in the normal coding manner. For this we use the following function <code>#define</code> . For example , we can define the following macros,
+   <pre>#define F first 
+#define S second 
+#define PB push_back 
+#define MP make_pair</pre>
+   After this code we can just use this code , 
+   <pre>v.push_back(make_pair(y1,x2));
+int d = v[i].first + v[i].second;</pre>
+   Like this ,
+   <pre>v.PB(Mp(y1,x2));
+int d = v[i].F + v[i].S;</pre>
+   And a macro can also have parameters which makes it possible to shorten loops and structure like those,
+  <pre>#define REP(i,a,b) for(int i=a;a&ltb;a++) 
+  </pre>
+  The this code 
+   <pre>for(int i=0;i&ltn;i++){
+  search(i);
+}</pre>
+   becomes, 
+   <pre>REP(i,0,n){
+   search(i);
+}</pre>
+   <li><h3>namespaces</h3></li>
+   Namespaces are also as same as the things in the before hand because it can be used to reduce the usage of a main function everywhere such like,
+   <pre> using namespace std;</pre>
+   So this using these we can make the code much much smaller so it can be compilled much easily.
+</ol>
+   <h2>Things to remember</h2>
+   So since we have learnt the usage of the code shortners we should update our code snipped like this.,
+   <pre>#include &ltbits/stdc++.h&gt
+
+using namespace std;
+using ll= long long;
+const ll MOD=1000000007;
+
+int main(){
+    cin.tie(0);
+    ios::sync_with_stdio(0);
+    
+    // your code
+
+    return 0;
+
+}</pre>
+Many competitors use this code snippet since it is the shortest and the most working one for the normal coding contests.
+  
+  
+  `
+}
+
  
 
 
