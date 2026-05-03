@@ -995,6 +995,80 @@ cout &lt&lt *it &lt&lt "\n";</code></pre>
 `
   },
  
+ {
+    slug: "stack-in-cpp",
+    title: "Stack In C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "Learning about the stack data structure and when to use it in your cp solutions.",
+    tags: ["stack", "STL", "data structures"],
+    html: `
+<p>Alright so after vectors, sets and maps lets talk about some other data structures that come up quite often in cp. First up is the stack. A stack is one of those structures that sounds simple but is actually used in alot of suprising places once u get into more advanced problems.</p>
+ 
+<h2>What is a stack</h2>
+<p>A stack follows the LIFO principle which stands for Last In First Out. Think of it like a stack of plates. The last plate u put on top is the first one u take off. U can only add or remove from the top, u cant access elements in the middle.</p>
+ 
+<p>The main operations on a stack are :</p>
+<ul>
+    <li><code>push(x)</code> - add element x to the top</li>
+    <li><code>pop()</code> - remove the top element</li>
+    <li><code>top()</code> - see the top element without removing it</li>
+    <li><code>empty()</code> - check if stack is emptey</li>
+    <li><code>size()</code> - number of elements in the stack</li>
+</ul>
+ 
+<h2>Using stack in c++</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    stack&ltint> s;
+ 
+    s.push(3);
+    s.push(7);
+    s.push(1);
+ 
+    cout &lt&lt s.top() &lt&lt "\n";
+ 
+    s.pop();
+ 
+    cout &lt&lt s.top() &lt&lt "\n";
+    cout &lt&lt s.size() &lt&lt "\n";
+ 
+    return 0;
+}</code></pre>
+<p>So the output here would be 1 then 7 then 2. Because 1 was the last thing pushed so its on top. After popping 1, now 7 is on top.</p>
+ 
+<h2>One importent thing about pop()</h2>
+<p>In c++ <code>pop()</code> removes the top element but it does NOT return it. This suprises alot of people. So if u want to use the top element before removing it u have to do it in two steps :</p>
+<pre><code>int val = s.top();
+s.pop();
+</code></pre>
+<p>Dont try to do <code>int val = s.pop()</code> it wont work.</p>
+ 
+<h2>When is a stack useful</h2>
+<p>Stacks are used in alot of classic problems like :</p>
+<ul>
+    <li>Checking if brackets are balanced in an expression</li>
+    <li>Converting infix expressions to postfix</li>
+    <li>Implementing depth first search iterativly</li>
+    <li>Finding the nearest smaller or larger element problems</li>
+</ul>
+<p>The brackt balancing problem is a super classic one. U push opening brackets onto the stack and when u see a closing bracket u check if the top of the stack has the matching opening bracket. If at the end the stack is empty the brackets are balanced.</p>
+ 
+<h2>Things to remember</h2>
+<ul>
+    <li>Stack is LIFO - last in first out.</li>
+    <li>Use <code>top()</code> to see the top element before using <code>pop()</code>.</li>
+    <li><code>pop()</code> does not return the value, it just removes it.</li>
+    <li>Always check <code>empty()</code> before calling <code>top()</code> or <code>pop()</code> to avoid crashing.</li>
+</ul>
+ 
+<blockquote>The stack is deceptivly simple but it shows up in so many problems. Once u start recognizing the pattern u'll see it everywhere.</blockquote>
+`
+  },
 
  
 
