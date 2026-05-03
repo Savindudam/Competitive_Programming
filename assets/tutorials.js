@@ -1156,7 +1156,7 @@ while(!q.empty()){
     topic: "Data Structures",
     difficulty: "Easy",
     readMinutes: 8,
-    date: "2026-05-05",
+    date: "2026-05-03",
     excerpt: "Learning about priority queue which is basically a heap and is one of the most usefull structures in cp.",
     tags: ["priority queue", "heap", "STL", "data structures"],
     html: `
@@ -1234,7 +1234,7 @@ cout &lt&lt minpq.top() &lt&lt "\n";</code></pre>
     topic: "Data Structures",
     difficulty: "Easy",
     readMinutes: 6,
-    date: "2026-05-06",
+    date: "2026-05-03",
     excerpt: "What is a deque and why its useful when u need to add or remove elements from both ends efficently.",
     tags: ["deque", "STL", "data structures"],
     html: `
@@ -1297,11 +1297,128 @@ int main(){
 `
   },
 
+{
+    slug: "sum-formulas-in-cp",
+    title: "Sum Formulas You Need To Know In CP",
+    topic: "Mathematics",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-03",
+    excerpt: "Learning the basic sum formulas that show up again and again in competitive programming problems.",
+    tags: ["math", "sums", "formulas", "basics"],
+    html: `
+<p>Okay so math is a huge part of competitive programming and theres no way around it. U dont need to be a math genius but u do need to know some basic formulas and concepts realy well. Lets start with sum formulas because these come up all the time.</p>
+
+<h2>Sum of 1 to N</h2>
+<p>The most classic formula u'll ever see in cp is the sum of all integers from 1 to n :</p>
+<pre><code>1 + 2 + 3 + ... + n = n * (n + 1) / 2</code></pre>
+<p>For example the sum of 1 to 100 is 100 * 101 / 2 = 5050. This formula was famously discoverd by Gauss when he was like 10 years old so theres no excuse not to know it. U'll use this so many times in cp.</p>
+<p>In c++ u can compute this in O(1) :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  long long n;
+  cin >> n;
+  cout &lt&lt n * (n + 1) / 2 &lt&lt "\n";
+  return 0;
+}</code></pre>
+<p>Notice I used long long here because n * (n+1) can overflow int if n is large.</p>
+
+<h2>Sum of squares</h2>
+<p>Sometimes u need the sum of squares from 1 to n :</p>
+<pre><code>1^2 + 2^2 + 3^2 + ... + n^2 = n * (n + 1) * (2n + 1) / 6</code></pre>
+<p>This one is less common than the basic sum but it does show up ocasionaly in math problems so its good to have it memorised.</p>
+
+<h2>Arithmetic progression sum</h2>
+<p>An arithmetic progression is just a sequence where the difference between any two consecutive numbers is constant. Like 3, 7, 11, 15 has a constant differance of 4. The sum of an arithematic progression is :</p>
+<pre><code>sum = n * (first + last) / 2</code></pre>
+<p>Where n is the count of numbers, first is the first number and last is the last number. So for 3 + 7 + 11 + 15 we have 4 numbers, first = 3, last = 15, so sum = 4 * (3 + 15) / 2 = 36. Pretty straitforward.</p>
+
+<h2>Geometric progression sum</h2>
+<p>A geometric progression is a sequence where consecutive numbers have a constant ratio. Like 3, 6, 12, 24 has a ratio of 2. The sum formula is :</p>
+<pre><code>sum = (last * ratio - first) / (ratio - 1)</code></pre>
+<p>So for 3 + 6 + 12 + 24 with ratio 2 the sum is (24 * 2 - 3) / (2 - 1) = 45. A speciel case that comes up alot is :</p>
+<pre><code>1 + 2 + 4 + 8 + ... + 2^(n-1) = 2^n - 1</code></pre>
+<p>This shows up constanty in bit manipulation and subset problems so definitly memorize it.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Sum 1 to n = n*(n+1)/2. Always use long long for this.</li>
+  <li>Arithmetic progression sum = count * (first + last) / 2.</li>
+  <li>Geometric sum formula is useful but less common than the others.</li>
+  <li>The formula 1+2+4+...+2^(n-1) = 2^n - 1 is extreamly useful in bit problems.</li>
+</ul>
+
+<blockquote>Memorizing these formulas is non-negotiable. At some point in a contest u'll see a problem where recognizing one of these instantly saves u 20 minutes.</blockquote>
+`
+  },
+
+{
+    slug: "set-theory-basics-for-cp",
+    title: "Set Theory Basics For CP",
+    topic: "Mathematics",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "Understanding sets, unions, intersections and why this stuff actualy matters in competitive programming.",
+    tags: ["math", "sets", "theory", "basics"],
+    html: `
+<p>Set theory might sound like boring pure math stuff but its actualy realy usefull for understanding problems in cp. Lets go through the basic concepts.</p>
+
+<h2>What is a set</h2>
+<p>A set is just a collection of distinct elements. For example X = {2, 4, 7} is a set with three elements. The importent thing is that sets dont have duplicates and the order doesnt matter. So {2, 4, 7} and {7, 2, 4} are the same set.</p>
+<p>Some notation u need to know :</p>
+<ul>
+  <li><code>x ∈ S</code> means x is in set S. Example: 4 ∈ {2, 4, 7} is true.</li>
+  <li><code>x ∉ S</code> means x is not in set S. Example: 5 ∉ {2, 4, 7} is true.</li>
+  <li><code>|S|</code> means the size of the set. Example: |{2, 4, 7}| = 3.</li>
+  <li><code>∅</code> is the empty set with no elements.</li>
+</ul>
+
+<h2>Set operations</h2>
+<p>There are four main operations u can do with sets :</p>
+<ul>
+  <li><strong>Intersection A ∩ B</strong> : elements that are in BOTH A and B. Like if A = {1, 2, 5} and B = {2, 4} then A ∩ B = {2}.</li>
+  <li><strong>Union A ∪ B</strong> : elements that are in A OR B or both. Like if A = {3, 7} and B = {2, 3, 8} then A ∪ B = {2, 3, 7, 8}.</li>
+  <li><strong>Complement Ā</strong> : elements that are NOT in A (from some universal set).</li>
+  <li><strong>Difference A \ B</strong> : elements in A but not in B. Like if A = {2, 3, 7, 8} and B = {3, 5, 8} then A \ B = {2, 7}.</li>
+</ul>
+<p>These opperations directly corresspond to the c++ set operations we already covered. Intersection is like checking membership in both sets, union is combining two sets etc.</p>
+
+<h2>Subsets</h2>
+<p>A is a subset of S (written A ⊂ S) if every element of A is also in S. An importent fact is that a set with n elements has exactly <strong>2^n subsets</strong>. For example {2, 4, 7} has 2^3 = 8 subsets :</p>
+<ul>
+  <li>∅, {2}, {4}, {7}, {2,4}, {2,7}, {4,7}, {2,4,7}</li>
+</ul>
+<p>This 2^n fact is extreamly importent in cp especially in complete search and bit manipulation problems. Whenever u see a problem asking u to consider all posible subsets u know the search space is 2^n.</p>
+
+<h2>Common number sets</h2>
+<p>Theres some standerd notation for common sets of numbers :</p>
+<ul>
+  <li><strong>N</strong> = natural numbers (0, 1, 2, 3, ...)</li>
+  <li><strong>Z</strong> = integers (..., -2, -1, 0, 1, 2, ...)</li>
+  <li><strong>Q</strong> = rational numbers (fractions like 1/2, 3/4)</li>
+  <li><strong>R</strong> = real numbers (including irrationals like π)</li>
+</ul>
+<p>U'll see this notation in problem statments sometimes, especially in more math-heavy problems.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>A set has no duplicates and order doesnt matter.</li>
+  <li>Know the four operations: union, intersection, complement, differance.</li>
+  <li>A set with n elements has exactly 2^n subsets - this is cruciel for cp.</li>
+  <li>∅ is the empty set and it is a subset of every set.</li>
+</ul>
+
+<blockquote>Set theory is the language that algorithms are described in. The better u understand it the easier it is to read and understand new algoritms when u encounter them.</blockquote>
+`
+  },
  
 
  
+
 
 
 
 ]
-
