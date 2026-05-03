@@ -824,6 +824,104 @@ grid[1][2] = 5; // set element at row 1 , col 2</code></pre>
 <blockquote>Master vectors and you've already mastered like 60% of what you'll need for data structures in CP.</blockquote>
 `
   },
+  {
+    slug: "sets-and-maps",
+    title: "Sets and Maps in C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 10,
+    date: "2026-05-06",
+    excerpt: "Understanding set and map data structures and when to use them in your solutions.",
+    tags: ["set", "map", "STL", "data structures"],
+    html: `
+<h2>Set structures</h2>
+<p>A set is a data structure that stores a collection of elements but with one big difference from a vector - it doesn't allow duplicates and it keeps elements in sorted order automatically. All the main operations (inserting, finding, deleting) are done in O(log n) time.</p>
+ 
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  set&ltint> s;
+  s.insert(3);
+  s.insert(7);
+  s.insert(3); // duplicate , wont be added
+  s.insert(1);
+  
+  cout &lt&lt s.size() &lt&lt endl; // 3
+  
+  // check if element exists
+  if(s.count(7)){
+    cout &lt&lt "7 is in the set" &lt&lt endl;
+  }
+  
+  s.erase(3); // removes 3
+  
+  for(int x : s){
+    cout &lt&lt x &lt&lt " "; // outputs : 1 7
+  }
+  return 0;
+}</code></pre>
+ 
+<h2>When to use set vs vector</h2>
+<p>Use a set when you need to:</p>
+<ul>
+  <li>Store unique elements only</li>
+  <li>Frequently check if an element exists (O(log n) vs O(n) for vector)</li>
+  <li>Keep elements in sorted order automatically</li>
+</ul>
+<p>Use a vector when you need to:</p>
+<ul>
+  <li>Access elements by index</li>
+  <li>Allow duplicates</li>
+  <li>Need O(1) access time</li>
+</ul>
+ 
+<h2>Map structures</h2>
+<p>A map stores key-value pairs where each key is unique. Think of it like a dictionary. You can map any type to any other type. Just like set it keeps keys in sorted order and all main operations are O(log n).</p>
+ 
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  map&ltstring, int> wordCount;
+  
+  wordCount["hello"] = 1;
+  wordCount["world"] = 3;
+  wordCount["hello"]++; // now hello = 2
+  
+  cout &lt&lt wordCount["hello"] &lt&lt endl; // 2
+  cout &lt&lt wordCount.size() &lt&lt endl;  // 2
+  
+  // check if key exists
+  if(wordCount.count("hello")){
+    cout &lt&lt "hello exists" &lt&lt endl;
+  }
+  
+  // iterate through map
+  for(auto p : wordCount){
+    cout &lt&lt p.first &lt&lt " : " &lt&lt p.second &lt&lt endl;
+  }
+  return 0;
+}</code></pre>
+ 
+<h2>Unordered versions for speed</h2>
+<p>C++ also has <code>unordered_set</code> and <code>unordered_map</code> which use hashing internally and give O(1) average time for operations instead of O(log n). But they dont keep elements in sorted order. Use these when order doesn't matter and you need maximum speed.</p>
+<pre><code>unordered_map&ltstring, int> um;
+um["hello"] = 5;
+cout &lt&lt um["hello"]; // 5 , accessed in O(1) average</code></pre>
+<p>Warning : in worst case unordered containers can be O(n) due to hash collisions. In most contest problems this doesnt happen but something to keep in mind.</p>
+ 
+<h2>Things to remember</h2>
+<ul>
+  <li>Set automatically removes duplicates and keeps sorted order.</li>
+  <li>Map is perfect for counting frequencies or storing associations.</li>
+  <li>Use unordered versions if you need faster access and don't need ordering.</li>
+  <li>All set and map operations are O(log n) for ordered versions.</li>
+</ul>
+ 
+<blockquote>Maps and sets are your best friends when solving problems that involve frequency counting or membership queries.</blockquote>
+`
+  },
  
 
  
