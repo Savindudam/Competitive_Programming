@@ -592,6 +592,156 @@ int main(){
 <blockquote>Getting good at estimating complexity comes with practice. After doing enough problems you'll start seeing the pattern instantly.</blockquote>
 `
   },
+{
+    slug: "sorting-basics",
+    title: "Sorting Algorithms in CP",
+    topic: "Sorting",
+    difficulty: "Easy",
+    readMinutes: 10,
+    date: "2026-05-05",
+    excerpt: "Understanding sorting and why its one of the most important topics in competitive programming.",
+    tags: ["sorting", "algorithms", "arrays"],
+    html: `
+<h2>Why sorting is so importent</h2>
+<p>Sorting is literally everywhere in competitive programming. Like a huge chunk of the problems you'll solve will involve sorting in someway. It's becuase when data is sorted alot of operations become much much easier. For example if you want to find duplicate elements in an array , sort it first and then just check adjacent elements.</p>
+ 
+<h2>Bubble Sort (the one we learn first but never use)</h2>
+<p>Bubble sort is the simplest sorting algorithm and its the one almost everyone learns first. The idea is to go through the array and swap adjacent elements if they are in the wrong order. You repeat this n times.</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  int n = 6;
+  int arr[] = {5, 3, 8, 1, 9, 2};
+  
+  for(int i = 0; i &lt n; i++){
+    for(int j = 0; j &lt n-1; j++){
+      if(arr[j] > arr[j+1]){
+        swap(arr[j], arr[j+1]);
+      }
+    }
+  }
+  
+  for(int i = 0; i &lt n; i++){
+    cout &lt&lt arr[i] &lt&lt " ";
+  }
+  return 0;
+}</code></pre>
+<p>This works but the problem is its <code>O(n^2)</code> so for large inputs its completly useless. Please don't use this in actual contests lol.</p>
+ 
+<h2>The real deal - merge sort</h2>
+<p>Merge sort is one of the most efficent general sorting algorithms with a time complexity of <code>O(n log n)</code>. The idea behind it is divide and conquer. Split the array in half , sort each half recurcively , then merge them back together.</p>
+<p>The key insight is that merging two already sorted arrays can be done in linear time. And since we only have O(log n) levels of recursion the total work is O(n log n).</p>
+ 
+<h2>Just use sort() from STL</h2>
+<p>In actual competitive programming almost nobody implements sorting from scratch. C++ has a built in sort function that works in O(n log n) and its really easy to use :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  int arr[] = {5, 3, 8, 1, 9, 2};
+  int n = 6;
+  
+  sort(arr, arr + n);
+  
+  for(int i = 0; i &lt n; i++){
+    cout &lt&lt arr[i] &lt&lt " ";
+  }
+  return 0;
+}</code></pre>
+<p>For vectors its even easier :</p>
+<pre><code>vector&ltint> v = {5, 3, 8, 1, 9, 2};
+sort(v.begin(), v.end());</code></pre>
+ 
+<h2>Sorting in reverse order</h2>
+<p>Sometimes you need to sort in descening order. You can do this easily by adding a comparator :</p>
+<pre><code>sort(v.begin(), v.end(), greater&ltint>());</code></pre>
+ 
+<h2>Things to remember</h2>
+<ul>
+  <li>Always use the built in sort() function from STL.</li>
+  <li>sort() runs in O(n log n) which is good for most problems.</li>
+  <li>Bubble sort is only good for learning , never use it in contests.</li>
+  <li>Sorting often simplifies other problems so always think if sorting helps first.</li>
+</ul>
+ 
+<blockquote>When stuck on a problem , try sorting the input first. You'll be surprised how many problems become trivial after that.</blockquote>
+`
+  },
+ 
+  {
+    slug: "binary-search-explained",
+    title: "Binary Search in C++",
+    topic: "Searching",
+    difficulty: "Easy",
+    readMinutes: 10,
+    date: "2026-05-05",
+    excerpt: "How to search for elements in a sorted array extremly fast using binary search.",
+    tags: ["binary search", "searching", "arrays"],
+    html: `
+<h2>The problem with linear search</h2>
+<p>Imagine you have a sorted array of one million elements and you want to find if a specific number exists. The naive approch is to check every single element one by one which takes O(n) time. For n = 10^6 thats a million operations. Thats not terrible but we can do way better.</p>
+ 
+<h2>How binary search works</h2>
+<p>Binary search works only on sorted arrays. The idea is pretty clever. Instead of checking every element we check the middle element first. If the target is smaller than the middle we search the left half, if its bigger we search the right half. Each step we eliminate half the remaining elements.</p>
+<p>This means for an array of 1 million elements we only need about 20 steps (log2 of 1 million is around 20). Thats insane compared to a million steps!</p>
+ 
+<h2>Implementing binary search</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  vector&ltint> arr = {1, 3, 5, 7, 9, 11, 13, 15};
+  int target = 7;
+  
+  int left = 0, right = arr.size() - 1;
+  
+  while(left &lt= right){
+    int mid = left + (right - left) / 2; // this way of calculating mid avoids overflow
+    
+    if(arr[mid] == target){
+      cout &lt&lt "Found at index " &lt&lt mid;
+      break;
+    } else if(arr[mid] &lt target){
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+  return 0;
+}</code></pre>
+<p>Note : always use <code>mid = left + (right - left) / 2</code> instead of <code>(left + right) / 2</code>. The second one can cause integer overflow if left and right are both very large!</p>
+ 
+<h2>Using STL binary search</h2>
+<p>C++ has built in functions for binary search that work on sorted arrays or vectors :</p>
+<pre><code>vector&ltint> v = {1, 3, 5, 7, 9, 11};
+sort(v.begin(), v.end()); // make sure its sorted first
+ 
+// check if element exists
+bool exists = binary_search(v.begin(), v.end(), 7); // returns true
+ 
+// find first element >= target
+auto it = lower_bound(v.begin(), v.end(), 6); // points to 7
+ 
+// find first element > target
+auto it2 = upper_bound(v.begin(), v.end(), 7); // points to 9</code></pre>
+ 
+<h2>lower_bound and upper_bound</h2>
+<p>These two are super useful in contests. <code>lower_bound</code> gives you an iterator to the first element that is greater than or equal to the target. <code>upper_bound</code> gives the first element that is strictly greater. To get the actual index just subtract v.begin() :</p>
+<pre><code>int idx = lower_bound(v.begin(), v.end(), 7) - v.begin();</code></pre>
+ 
+<h2>Things to remember</h2>
+<ul>
+  <li>Binary search only works on sorted data.</li>
+  <li>Time complexity is O(log n) which is extremly fast.</li>
+  <li>Use lower_bound and upper_bound from STL instead of writing your own.</li>
+  <li>Always calculate mid as left + (right - left) / 2 to avoid overflow.</li>
+</ul>
+ 
+<blockquote>Binary search is one of those things that looks simple but has alot of tricky edge cases. Practice implementing it from scratch atleast a few times before relying on the STL version.</blockquote>
+`
+  },
+ 
 
  
 
