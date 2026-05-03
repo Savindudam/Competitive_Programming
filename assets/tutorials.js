@@ -741,6 +741,89 @@ auto it2 = upper_bound(v.begin(), v.end(), 7); // points to 9</code></pre>
 <blockquote>Binary search is one of those things that looks simple but has alot of tricky edge cases. Practice implementing it from scratch atleast a few times before relying on the STL version.</blockquote>
 `
   },
+ {
+    slug: "vectors-in-cpp",
+    title: "Using Vectors in C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 8,
+    date: "2026-05-06",
+    excerpt: "Everything you need to know about vectors which is probaly the most used data structre in cp.",
+    tags: ["vectors", "arrays", "STL", "data structures"],
+    html: `
+<h2>What is a vector</h2>
+<p>A vector is basically a dynamic array. Unlike normal arrays in c++ where you have to know the size beforehand, vectors can grow and shrink as you add or remove elements. This makes them way more flexible and honestly in competitive programming you'll be using vectors almost all the time.</p>
+ 
+<h2>Declaring vectors</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  vector&ltint> v; // empty vector
+  vector&ltint> v2(5); // vector of size 5 , all zeros
+  vector&ltint> v3(5, 10); // vector of size 5 , all values are 10
+  vector&ltint> v4 = {1, 2, 3, 4, 5}; // initialized with values
+  
+  return 0;
+}</code></pre>
+ 
+<h2>Common operations</h2>
+<ul>
+  <li><code>v.push_back(x)</code> - add element x to the end</li>
+  <li><code>v.pop_back()</code> - remove last element</li>
+  <li><code>v.size()</code> - returns the number of elements</li>
+  <li><code>v[i]</code> - access element at index i</li>
+  <li><code>v.front()</code> - first element</li>
+  <li><code>v.back()</code> - last element</li>
+  <li><code>v.clear()</code> - removes all elements</li>
+  <li><code>v.empty()</code> - returns true if vector has no elements</li>
+</ul>
+ 
+<pre><code>vector&ltint> v;
+v.push_back(3);
+v.push_back(7);
+v.push_back(1);
+ 
+cout &lt&lt v.size() &lt&lt endl; // 3
+cout &lt&lt v[0] &lt&lt endl;    // 3
+cout &lt&lt v.back() &lt&lt endl; // 1
+ 
+v.pop_back(); // removes 1
+cout &lt&lt v.size() &lt&lt endl; // 2</code></pre>
+ 
+<h2>Iterating through a vector</h2>
+<p>There are few ways to loop through a vector :</p>
+<pre><code>vector&ltint> v = {1, 2, 3, 4, 5};
+ 
+// Normal loop
+for(int i = 0; i &lt v.size(); i++){
+  cout &lt&lt v[i] &lt&lt " ";
+}
+ 
+// Range based loop (much cleaner)
+for(int x : v){
+  cout &lt&lt x &lt&lt " ";
+}</code></pre>
+<p>The range based loop is honestly much cleaner and I personally perfer it when I dont need the index.</p>
+ 
+<h2>2D vectors</h2>
+<p>You can also have vectors of vectors which acts like a 2D array :</p>
+<pre><code>vector&ltvector&ltint>> grid(3, vector&ltint>(3, 0));
+// This creates a 3x3 grid filled with zeros
+ 
+grid[1][2] = 5; // set element at row 1 , col 2</code></pre>
+ 
+<h2>Things to remember</h2>
+<ul>
+  <li>Always use vectors instead of normal arrays unless you have a specific reason not to.</li>
+  <li>push_back is O(1) amortized , so adding elements is fast.</li>
+  <li>Accessing by index with v[i] does not do bounds checking , use v.at(i) if you want that (but its slower).</li>
+  <li>When passing vectors to functions pass by reference to avoid copying : <code>void func(vector&ltint>& v)</code></li>
+</ul>
+ 
+<blockquote>Master vectors and you've already mastered like 60% of what you'll need for data structures in CP.</blockquote>
+`
+  },
  
 
  
