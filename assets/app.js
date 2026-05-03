@@ -149,7 +149,7 @@
 
   function initHomeFeatured() {
     if (!document.getElementById("featured-list")) return;
-    renderTutorialList(window.TUTORIALS.slice(0, 3), "featured-list");
+    renderTutorialList(window.TUTORIALS.slice().reverse().slice(0, 5), "featured-list");
     var stats = document.getElementById("home-stats");
     if (stats) {
       var n = window.TUTORIALS.length;

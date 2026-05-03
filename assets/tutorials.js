@@ -1,7 +1,7 @@
 window.TUTORIALS = [
   {
     slug: "vscode-setup-guide",
-    title: "Setting Up VS Code for CP",
+    title: "Setting Up VS Code For CP",
     topic: "Environment",
     difficulty: "Easy",
     readMinutes: 5,
@@ -72,12 +72,11 @@ int main(){
 &nbsp;
 <blockquote>The best tool is the one you know how to use. Spend time mastering your editor!</blockquote>
 `
-  },
-
+},
 
   {
     slug: "Introduction to Competitive programming",
-    title: "Competitive programming Intro",
+    title: "Competitive Programming Intro",
     topic: "Introduction",
     difficulty: "Easy",
     readMinutes: 5,
@@ -112,12 +111,11 @@ year in name of <strong>IOI</strong> in various countries.( <a target="_blank" h
     
     
     `
-  },
-
+},
 
   {
     slug: "Basics to remember in cpp",
-    title: "Basics functions in c++",
+    title: "Basics Functions In C++",
     topic: "First step for coding",
     difficulty: "Easy",
     readMinutes: 10,
@@ -188,14 +186,12 @@ int main(){
 <ul><li>So now you're able to fully input a sentence and get the same output using the getline and cout fuction.</li></ul> 
 </br>
 So that's all for the basic input and output functions of c++ language. Move along to learn more.
-    
-    
-    
-    `},
+`
+},
 
 {
   slug: "working-with-numbers",
-    title: "Working with Numbers in C++",
+    title: "Working With Numbers In C++",
     topic: "Numbers & Mathematics",
     difficulty: "Easy",
     readMinutes: 15,
@@ -388,12 +384,12 @@ int main(){
 </ul>
  
 <blockquote>In competitive programming, one overflow bug can cost you the entire contest. Always think about number ranges before writing code .........!</blockquote>
-`},
-
+`
+},
 
 {
   slug: "Shortnening the code",
-  title: "Making the code short in cp",
+  title: "Shortnening The Code In CP",
   topic: "shorting code",
   difficulty: "Easy",
   readMinutes: 10,
@@ -475,13 +471,14 @@ Many competitors use this code snippet since it is the shortest and the most wor
   
   `
 },
+
 {
     slug: "time-complexity-intro",
-    title: "What is Time Complexity",
+    title: "What Is Time Complexity",
     topic: "Algorithm Analysis",
     difficulty: "Easy",
     readMinutes: 8,
-    date: "2026-05-04",
+    date: "2026-05-03",
     excerpt: "Understanding how we mesure the efficency of our algorithms and why it matters in competitive programming.",
     tags: ["time complexity", "Big O", "analysis"],
     html: `
@@ -537,13 +534,14 @@ int main(){
 <blockquote>A correct solution that is too slow is still a wrong solution in competitive programming. Always analyze the complexity first.</blockquote>
 `
 },
+
 {
     slug: "calculating-complexity",
     title: "How to Calculate Complexity",
     topic: "Algorithm Analysis",
-    difficulty: "Easy",
+    difficulty: "Medium",
     readMinutes: 7,
-    date: "2026-05-04",
+    date: "2026-05-03",
     excerpt: "Learning the rules to figure out the time complexity of your own code.",
     tags: ["Big O", "analysis", "loops"],
     html: `
@@ -591,14 +589,15 @@ int main(){
  
 <blockquote>Getting good at estimating complexity comes with practice. After doing enough problems you'll start seeing the pattern instantly.</blockquote>
 `
-  },
+},
+
 {
     slug: "sorting-basics",
-    title: "Sorting Algorithms in CP",
+    title: "Sorting Algorithms In CP",
     topic: "Sorting",
     difficulty: "Easy",
     readMinutes: 10,
-    date: "2026-05-05",
+    date: "2026-05-03",
     excerpt: "Understanding sorting and why its one of the most important topics in competitive programming.",
     tags: ["sorting", "algorithms", "arrays"],
     html: `
@@ -667,7 +666,7 @@ sort(v.begin(), v.end());</code></pre>
  
 <blockquote>When stuck on a problem , try sorting the input first. You'll be surprised how many problems become trivial after that.</blockquote>
 `
-  },
+},
  
   {
     slug: "binary-search-explained",
@@ -675,7 +674,7 @@ sort(v.begin(), v.end());</code></pre>
     topic: "Searching",
     difficulty: "Easy",
     readMinutes: 10,
-    date: "2026-05-05",
+    date: "2026-05-03",
     excerpt: "How to search for elements in a sorted array extremly fast using binary search.",
     tags: ["binary search", "searching", "arrays"],
     html: `
@@ -740,14 +739,15 @@ auto it2 = upper_bound(v.begin(), v.end(), 7); // points to 9</code></pre>
  
 <blockquote>Binary search is one of those things that looks simple but has alot of tricky edge cases. Practice implementing it from scratch atleast a few times before relying on the STL version.</blockquote>
 `
-  },
+},
+
  {
     slug: "vectors-in-cpp",
-    title: "Using Vectors in C++",
+    title: "Using Vectors In C++",
     topic: "Data Structures",
     difficulty: "Easy",
     readMinutes: 8,
-    date: "2026-05-06",
+    date: "2026-05-03",
     excerpt: "Everything you need to know about vectors which is probaly the most used data structre in cp.",
     tags: ["vectors", "arrays", "STL", "data structures"],
     html: `
@@ -823,14 +823,15 @@ grid[1][2] = 5; // set element at row 1 , col 2</code></pre>
  
 <blockquote>Master vectors and you've already mastered like 60% of what you'll need for data structures in CP.</blockquote>
 `
-  },
+},
+
   {
     slug: "sets-and-maps",
-    title: "Sets and Maps in C++",
+    title: "Sets And Maps In C++",
     topic: "Data Structures",
     difficulty: "Easy",
     readMinutes: 10,
-    date: "2026-05-06",
+    date: "2026-05-03",
     excerpt: "Understanding set and map data structures and when to use them in your solutions.",
     tags: ["set", "map", "STL", "data structures"],
     html: `
@@ -921,7 +922,7 @@ cout &lt&lt um["hello"]; // 5 , accessed in O(1) average</code></pre>
  
 <blockquote>Maps and sets are your best friends when solving problems that involve frequency counting or membership queries.</blockquote>
 `
-  },
+},
 
  
 
