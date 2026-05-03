@@ -1531,6 +1531,79 @@ int main(){
 `
   },
 
+{
+    slug: "fibonacci-and-factorial",
+    title: "Fibonacci Numbers & Factorials In CP",
+    topic: "Mathematics",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-03",
+    excerpt: "Two of the most common mathematical sequences in cp — fibonacci numbers and factorials and how to compute them efficently.",
+    tags: ["math", "fibonacci", "factorial", "recursion"],
+    html: `
+<p>Two sequences come up absolutley constanty in cp — fibonacci numbers and factorials. Lets look at both and how to handle them efficently in c++.</p>
+
+<h2>Factorials</h2>
+<p>The factorial of n (written n!) is the product of all integers from 1 to n :</p>
+<pre><code>n! = 1 * 2 * 3 * ... * n</code></pre>
+<p>And the special case is 0! = 1. Factorials grow extreamely fast. 20! is already about 2.4 * 10^18 which barely fits in a long long. So u almost always compute factorials modulo some number in cp.</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n;
+  cin >> n;
+  long long mod = 1e9 + 7;
+  long long fact = 1;
+  for(int i = 2; i &lt= n; i++){
+    fact = (fact * i) % mod;
+  }
+  cout &lt&lt fact &lt&lt "\n";
+  return 0;
+}</code></pre>
+<p>This computes n! mod 10^9+7 efficently in O(n) time. Precomputing factorials into an array is also very usefull if u need factorials for multiple queries.</p>
+
+<h2>Fibonacci numbers</h2>
+<p>Fibonacci numbers are defined by this recursion :</p>
+<pre><code>f(0) = 0
+f(1) = 1
+f(n) = f(n-1) + f(n-2)</code></pre>
+<p>So the sequence is 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ... Each number is the sum of the two before it.</p>
+<p>The naive recursive way to compute fib(n) is O(2^n) which is horibley slow. The correct way is to use a simple loop :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n;
+  cin >> n;
+  long long a = 0, b = 1;
+  for(int i = 2; i &lt= n; i++){
+    long long c = a + b;
+    a = b;
+    b = c;
+  }
+  cout &lt&lt b &lt&lt "\n";
+  return 0;
+}</code></pre>
+<p>This is O(n) and uses O(1) memory which is perfect.</p>
+
+<h2>Fibonacci grows fast too</h2>
+<p>Fibonacci numbers also grow very quickly. fib(93) is already larger than what fits in a long long. So again u'll often compute fibonacci numbers modulo some value. Just add % mod inside the loop.</p>
+
+<h2>Binets formula</h2>
+<p>There actualy is a closed-form formula for fibonacci called Binet's formula but it involves square roots and floating point which makes it tricky in cp due to precision issues. The iterative loop approach is almost always better and more reliable.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Always compute factorials with modulo since they grow extremly fast.</li>
+  <li>Precompute factorials into an array if u need them repeatadly.</li>
+  <li>Use the iterative approach for fibonacci, not naive recursion.</li>
+  <li>fib and factorial both exceed long long very quickly so always think about overflow.</li>
+</ul>
+
+<blockquote>Fibonacci and factorial are everywhere in combinatorics, dp and math problems. Knowing how to compute them fast and correctly is just a basic tool u need in ur kit.</blockquote>
+`
+  },
  
 
 
