@@ -191,7 +191,205 @@ So that's all for the basic input and output functions of c++ language. Move alo
     
     
     
-    `}
+    `},
+
+{
+  slug: "working-with-numbers",
+    title: "Working with Numbers in C++",
+    topic: "Numbers & Mathematics",
+    difficulty: "Easy",
+    readMinutes: 12,
+    date: "2026-05-03",
+    excerpt: "Master integer types, modular arithmetic, and floating-point operations essential for competitive programming.  (This is gonna be a long tutorial)",
+    tags: ["numbers", "math", "integers", "modulo"],
+    html: `
+<h2>Understanding Integer Types</h2>
+<p>In competitive programming, choosing the right data type for numbers is crucial. Let's explore the different integer types available in C++.</p>
+ 
+<h3>The int Type</h3>
+<p>The most commonly used integer type is <code>int</code>, which is a 32-bit type.</p>
+<ul>
+    <li><strong>Range:</strong> −2<sup>31</sup> to 2<sup>31</sup> − 1</li>
+    <li><strong>Approximately:</strong> −2 x 10<sup>9</sup> to 2 x 10<sup>9</sup></li>
+    <li><strong>Use when:</strong> Your values are within ±2 billion</li>
+</ul>
+ 
+<pre><code>int x = 1000000;
+int y = -500000;
+cout << x + y << endl; // Output is : 500000
+</code></pre>
+ 
+<h3>The long long Type</h3>
+<p>When <code>int</code> isn't enoug, use <code>long long</code> - a 64-bit type that can handle much larger numbers.</p>
+<ul>
+    <li><strong>Range:</strong> −2<sup>63</sup> to 2<sup>63</sup> − 1</li>
+    <li><strong>Approximately:</strong> −9 x 10<sup>18</sup> to 9 x 10<sup>18</sup></li>
+    <li><strong>Declaration tip:</strong> Use <code>LL</code> suffix for large literals</li>
+</ul>
+ 
+<pre><code>long long x = 123456789123456789LL;
+long long y = 987654321987654321LL;
+cout << x + y << endl;
+</code></pre>
+ 
+<h3>Common Mistake: Type Mixing</h3>
+<p> <strong>Warning:</strong> Even if you store the result in <code>long long</code>, intermediate calculations use the type of the operands!</p>
+ 
+<pre><code>// WRONG - This will overflow!
+int a = 123456789;
+long long b = a * a;  // a*a is calculated as int
+cout << b << endl;     // Outputs: -1757895751 (wrong!)
+ 
+// CORRECT - Cast to long long before multiplication
+int a = 123456789;
+long long b = (long long)a * a;
+cout << b << endl;     // Outputs: 15241578750190521 (correct!)
+</code></pre>
+ 
+<h2>Modular Arithmetic</h2>
+<p>Many competitive programming problems ask you to output answers "modulo M" (often modulo 10<sup>9</sup> + 7). This prevents numbers from becoming too large.</p>
+ 
+<h3>Why Modular Arithmetic?</h3>
+<ul>
+    <li>Keeps numbers within manageable range</li>
+    <li>Allows using <code>int</code> or <code>long long</code> instead of huge numbers</li>
+    <li>Standard in competitive programming to avoid overflow</li>
+</ul>
+ 
+<h3>Key Properties</h3>
+<p>The remainder can be taken before operations:</p>
+<ul>
+    <li>(a + b) mod m = ((a mod m) + (b mod m)) mod m</li>
+    <li>(a − b) mod m = ((a mod m) − (b mod m)) mod m</li>
+    <li>(a x b) mod m = ((a mod m) x (b mod m)) mod m</li>
+</ul>
+ 
+<h3>Example: Calculating Factorial Modulo M</h3>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    int n = 20;
+    long long m = 1000000007;  // Common modulo value
+    long long x = 1;
+    
+    for(int i = 2; i <= n; i++){
+        x = (x * i) % m;  // Take modulo after each step
+    }
+    
+    cout << x << endl;  // Factorial of 20 mod 10^9+7
+    return 0;
+}
+</code></pre>
+ 
+<h3>Handling Negative Remainders</h3>
+<p>In C++, the remainder of a negative number can be negative. Here's how to fix it:</p>
+ 
+<pre><code>int x = -10;
+int m = 7;
+ 
+x = x % m;        // x might be negative
+if(x < 0) x += m; // Make sure x is positive
+ 
+cout << x << endl; // Now x is between 0 and m-1
+</code></pre>
+ 
+<h2>Floating Point Numbers</h2>
+<p>For problems requiring decimal values, C++ offers floating-point types.</p>
+ 
+<h3>Types Available</h3>
+<ul>
+    <li><code>double</code> - 64-bit, sufficient for most contests</li>
+    <li><code>long double</code> - 80-bit, more accurate (g++ extension)</li>
+</ul>
+ 
+<h3>Precision Control</h3>
+<p>Use <code>printf</code> or <code>cout</code> with precision settings:</p>
+ 
+<pre><code>double pi = 3.14159265358979;
+ 
+// Using printf
+printf("%.9f\\n", pi);  // 9 decimal places
+ 
+// Using cout
+cout << fixed << setprecision(9) << pi << endl;
+</code></pre>
+ 
+<h3>Comparing Floating Point Numbers</h3>
+<p><strong>Never use == with floating point numbers!</strong> Due to precision errors, use epsilon comparison instead:</p>
+ 
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    double a = 0.3 * 3 + 0.1;
+    double b = 1.0;
+    
+    // WRONG way
+    if(a == b){
+        cout << "Equal" << endl;  // Might not print!
+    }
+    
+    // CORRECT way
+    double epsilon = 1e-9;
+    if(abs(a - b) < epsilon){
+        cout << "Equal" << endl;  // Will print
+    }
+    
+    return 0;
+}
+</code></pre>
+ 
+<h3>Exact Integer Representation</h3>
+<p>Interesting fact: <code>double</code> can accurately represent all integers with absolute value up to 2<sup>53</sup>!</p>
+ 
+<h2>Quick Reference</h2>
+<table border="1" cellpadding="10">
+<tr>
+    <th>Type</th>
+    <th>Size</th>
+    <th>Range</th>
+    <th>Use Case</th>
+</tr>
+<tr>
+    <td><code>int</code></td>
+    <td>32-bit</td>
+    <td>±2 x 10<sup>9</sup></td>
+    <td>Most problems</td>
+</tr>
+<tr>
+    <td><code>long long</code></td>
+    <td>64-bit</td>
+    <td>±9 x 10<sup>18</sup></td>
+    <td>Large numbers</td>
+</tr>
+<tr>
+    <td><code>double</code></td>
+    <td>64-bit</td>
+    <td>Decimals</td>
+    <td>Floating point</td>
+</tr>
+<tr>
+    <td><code>long double</code></td>
+    <td>80-bit</td>
+    <td>Decimals</td>
+    <td>High precision</td>
+</tr>
+</table>
+ 
+<h2>Things to Remember</h2>
+<ul>
+    <li>If you ain't sure how much high the answer would be always use the answer with Mod 1000000007. 
+    <li>Always use <code>long long</code> when dealing with products or large sums</li>
+    <li>Take modulo after every operation to prevent overflow</li>
+    <li>Never compare floating point numbers with <code>==</code></li>
+    <li>Use <code>LL</code> suffix for large literal values</li>
+    <li>Check problem constraints to choose appropriate data type</li>
+</ul>
+ 
+<blockquote>In competitive programming, one overflow bug can cost you the entire contest. Always think about number ranges before writing code .........!</blockquote>
+`}
+ 
 
 
 
