@@ -1472,6 +1472,65 @@ for(int x : arr){
 `
   },
 
+{
+    slug: "logarithms-for-cp",
+    title: "Logarithms — Why They Matter In CP",
+    topic: "Mathematics",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-03",
+    excerpt: "Understanding logarithms intuitively and why O(log n) algorithms are so powerfull in competitive programming.",
+    tags: ["math", "logarithms", "complexity", "basics"],
+    html: `
+<p>Logarithms are one of those things that confuse people in school but in cp they become realy natural once u see how they connect to algorithms. Lets understand them properly.</p>
+
+<h2>What is a logarithm</h2>
+<p>The logarithm log_k(x) answers the question : how many times do u need to divide x by k before u reach 1? For example log_2(32) = 5 because :</p>
+<pre><code>32 → 16 → 8 → 4 → 2 → 1 (5 divisions by 2)</code></pre>
+<p>Another way to think about it : log_k(x) = a means k^a = x. So log_2(8) = 3 because 2^3 = 8. Pretty simle once u see it that way.</p>
+
+<h2>Why logarithms appear in algorithms</h2>
+<p>Logarithms show up in algorithm analysis because many efficent algorithms cut the problem size in half at each step. If u start with n elements and keep halving, u need about log_2(n) steps to get down to 1 element. This is exacty why binary search is O(log n) — it halvs the search space each time.</p>
+<p>This is also why balanced tree operations like insert and search in a <code>set</code> are O(log n). The tree has about log_2(n) levels and u only traverse one path from root to leaf.</p>
+
+<h2>Important log properties</h2>
+<p>U dont need to derive these just know them :</p>
+<ul>
+  <li>log(a * b) = log(a) + log(b)</li>
+  <li>log(a^n) = n * log(a)</li>
+  <li>log(a / b) = log(a) - log(b)</li>
+  <li>log base change: log_u(x) = log_k(x) / log_k(u)</li>
+</ul>
+<p>The base change formula is usefull because computers usualy calculate natural log (base e) or log base 10, but u might need log base 2. In c++ u can use <code>log2(x)</code> directly from the cmath library.</p>
+
+<h2>Logarithms in c++</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  double x = 32;
+  cout &lt&lt log2(x) &lt&lt "\n";   // 5 (log base 2)
+  cout &lt&lt log10(x) &lt&lt "\n";  // ~1.505 (log base 10)
+  cout &lt&lt log(x) &lt&lt "\n";    // ~3.465 (natural log, base e)
+  return 0;
+}</code></pre>
+<p>In cp u often use log2 to figure out how many bits a number needs or how deep a recursion tree will go.</p>
+
+<h2>How many digits does a number have</h2>
+<p>A usefull formula : the number of digits of x in base b is floor(log_b(x)) + 1. So the number of digits of 123 in base 10 is floor(log_10(123)) + 1 = floor(2.089) + 1 = 2 + 1 = 3. Which is corect, 123 has 3 digits.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>log_2(n) = how many times u can halve n before reaching 1.</li>
+  <li>Any algorithm that halves the input each step is O(log n).</li>
+  <li>log_2(1000) ≈ 10, log_2(10^6) ≈ 20, log_2(10^9) ≈ 30. These are usefull to know.</li>
+  <li>Use <code>log2(x)</code> in c++ for base 2 logarithms.</li>
+</ul>
+
+<blockquote>When u see O(log n) in complexity analysis, think "this algorithm is dividing the problem in half over and over". That intuition will serve u well across hundreds of problems.</blockquote>
+`
+  },
+
  
 
 
