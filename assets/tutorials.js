@@ -884,6 +884,56 @@ sort(v.begin(), v.end());</code></pre>
   },
 
 {
+    slug: "estimating-efficiency-in-cp",
+    title: "Estimating Efficiency — Will My Solution Pass?",
+    topic: "Time Complexity",
+    difficulty: "Easy",
+    readMinutes: 5,
+    date: "2026-05-04",
+    excerpt: "How to quickly estimate if ur algorithm is fast enough for a problem before writing a single line of code.",
+    tags: ["time complexity", "efficiency", "estimation", "cp strategy"],
+    html: `
+<p>One of the most valueable skills in cp is being able to look at a problem, look at ur proposed algorithm, and quickly decide weather it will pass in time. Lets learn how to do that.</p>
+
+<h2>The basic rule</h2>
+<p>A morden computer can do roughly <strong>100 million to 1 billion simple operations per second</strong>. Most cp problems have a time limit of 1-2 seconds. So ur algorithm generally needs to do at most about 10^8 operations to be safe.</p>
+
+<h2>Examples</h2>
+<p>Say the input size is n = 10^5 and u have a O(n^2) algorithm. How many operations is that? (10^5)^2 = 10^10. At 10^8 per second thats about 100 seconds. Way too slow, u'll get TLE (Time Limit Exceeded).</p>
+<p>Same input, O(n log n) algorithm. n log n ≈ 10^5 * 17 ≈ 1.7 * 10^6. At 10^8 per second thats 0.017 seconds. Easily passes.</p>
+<p>So just pluging in the numbers and checking is all u need to do.</p>
+
+<h2>The estimation table</h2>
+<p>Heres a quick reference. These are aproximate numbers :</p>
+<ul>
+  <li>n = 10^2, O(n^3) → 10^6 operations → fast</li>
+  <li>n = 10^3, O(n^2) → 10^6 operations → fast</li>
+  <li>n = 10^4, O(n^2) → 10^8 operations → borderline, might TLE</li>
+  <li>n = 10^5, O(n^2) → 10^10 operations → definately TLE</li>
+  <li>n = 10^5, O(n log n) → ~10^6 operations → fine</li>
+  <li>n = 10^6, O(n) → 10^6 operations → fine</li>
+</ul>
+
+<h2>Constant factors matter too</h2>
+<p>One thing to be carefull about is that Big O hides constant factors. An O(n) algorithm that does 100 operations per element is the same Big O as one that does 1 operation per element, but the first is 100 times slower in practise. So sometimes a technicaly correct complexity estimate still leads to TLE because the constant is large.</p>
+<p>In c++ constant factors are usualy small, especially if ur not doing heavy string processing or unordered operations with bad hash collisions.</p>
+
+<h2>When ur unsure, test with large input</h2>
+<p>If ur not sure weather ur solution will pass, write it and test it locally with the largest possible input (like n = 10^5) and see how long it takes. If its noticeably slow on ur machine it will definitly TLE on the judge.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>10^8 operations per second is a safe estimate for a morden cp judge.</li>
+  <li>Always plug in the actual n value into ur complexity formula and see if the number is below 10^8.</li>
+  <li>Be aware of constant factors — a technically O(n) solution can still be slow if the constant is huge.</li>
+  <li>When in doubt, test with the max input size localy before submitting.</li>
+</ul>
+
+<blockquote>Developing good estimaton instinct takes time but its one of the highest-leverage skills in cp. After a while u'll be able to glance at constraints and know instinctively what algorithm class is needed.</blockquote>
+`
+  },
+  
+{
     slug: "binary-search-explained",
     title: "Binary Search in C++",
     topic: "Searching",
