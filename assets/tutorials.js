@@ -924,6 +924,78 @@ cout &lt&lt um["hello"]; // 5 , accessed in O(1) average</code></pre>
 `
 },
 
+{
+    slug: "iterators-and-ranges",
+    title: "Iterators And Ranges In C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 5-7,
+    date: "2026-05-03",
+    excerpt: "Understanding what iterators are and how u use them to work with STL containers in cp.",
+    tags: ["iterators", "STL", "ranges", "data structures"],
+    html: `
+<p>Umm so if u have been using vectors and sets for a while u have probaly seen words like <code>v.begin()</code> and <code>v.end()</code> and wondered what those actualy are. Well those are iterators and they are actually a pretty importent concept to understand if u want to use STL properly.</p>
+ 
+<h2>So what is an iterator</h2>
+<p>An iterator is basically like a pointer that points to an element inside a container. U can think of it like an index but more generalized so it works with any STL container not just arrays. Every STL container like vector, set, map etc has iterators.</p>
+ 
+<p>The two most importent iterators every container has are :</p>
+<ul>
+    <li><code>begin()</code> - points to the first element of the container</li>
+    <li><code>end()</code> - points to one position past the last element (not the last element itself, the position after it)</li>
+</ul>
+ 
+<h2>Using iterators with a vector</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    vector&ltint> v = {3, 1, 4, 1, 5};
+ 
+    vector&ltint>::iterator it = v.begin();
+    cout &lt&lt *it &lt&lt "\n";
+ 
+    it++;
+    cout &lt&lt *it &lt&lt "\n";
+ 
+    return 0;
+}</code></pre>
+<p>So here <code>it</code> is an iterator, <code>*it</code> gives u the value it points to (just like dereferencing a pointer), and <code>it++</code> moves it to the next element. Writing the full type <code>vector&ltint>::iterator</code> is honestly annoying so most people just use <code>auto</code> :</p>
+<pre><code>auto it = v.begin();
+cout &lt&lt *it &lt&lt "\n";</code></pre>
+ 
+<h2>Iterating through a container using iterators</h2>
+<pre><code>vector&ltint> v = {3, 1, 4, 1, 5};
+ 
+for(auto it = v.begin(); it != v.end(); it++){
+    cout &lt&lt *it &lt&lt " ";
+}</code></pre>
+<p>This is the explicit iterator loop. Most of the time u'll just use the range based for loop which is cleaner but its good to know this way too becuase sometimes u actualy need the iterator itself not just the value.</p>
+ 
+<h2>Why iterators matter in cp</h2>
+<p>Iterators are needed whenever u use STL functions like <code>sort</code>, <code>lower_bound</code>, <code>upper_bound</code> etc. These functions all take iterators as arguements. For example :</p>
+<pre><code>vector&ltint> v = {5, 2, 8, 1, 9};
+sort(v.begin(), v.end());
+ 
+auto it = lower_bound(v.begin(), v.end(), 5);
+cout &lt&lt *it &lt&lt "\n";</code></pre>
+<p>Also when u want to erase a specific element from a vector u need an iterator :</p>
+<pre><code>v.erase(v.begin() + 2);</code></pre>
+<p>This erases the element at index 2. The <code>v.begin() + 2</code> part is doing pointer arithmetic on the iterator to get to posistion 2.</p>
+ 
+<h2>Things to remember</h2>
+<ul>
+    <li><code>begin()</code> points to first element, <code>end()</code> points past the last one.</li>
+    <li>Use <code>auto</code> instead of writing the full iterator type, its much shorter.</li>
+    <li>Dereference an iterator with <code>*it</code> to get the value.</li>
+    <li>Most STL algorithmns take iterators so u need to understand this.</li>
+</ul>
+ 
+<blockquote>Iterators are one of those things that feel wierd at first but become second nature after using them enough.</blockquote>
+`
+  },
+ 
+
  
 
  
