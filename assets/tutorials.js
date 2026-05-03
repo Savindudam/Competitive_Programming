@@ -536,7 +536,62 @@ int main(){
  
 <blockquote>A correct solution that is too slow is still a wrong solution in competitive programming. Always analyze the complexity first.</blockquote>
 `
-}
+},
+{
+    slug: "calculating-complexity",
+    title: "How to Calculate Complexity",
+    topic: "Algorithm Analysis",
+    difficulty: "Easy",
+    readMinutes: 7,
+    date: "2026-05-04",
+    excerpt: "Learning the rules to figure out the time complexity of your own code.",
+    tags: ["Big O", "analysis", "loops"],
+    html: `
+<h2>Calculation rules</h2>
+<p>So after knowing what time complexity is the next thing is to actually know how to calculate it for your own code. Dont worry its not that hard once you get the hang of it.</p>
+ 
+<h2>Single loops</h2>
+<p>If your code has a single loop that runs from 0 to n the complexity is simply <code>O(n)</code>. For example :</p>
+<pre><code>for(int i = 1; i &lt= n; i++){
+  // O(1) operation
+}</code></pre>
+<p>Straight forward right ? The loop runs n times and each iteration does constant work.</p>
+ 
+<h2>Nested loops</h2>
+<p>When you have loops inside loops you multiply the complexities. Two nested loops each running n times gives you O(n * n) = <code>O(n^2)</code>.</p>
+<pre><code>for(int i = 0; i &lt n; i++){
+  for(int j = 0; j &lt n; j++){
+    cout &lt&lt i + j; // still O(1)
+  }
+}</code></pre>
+<p>But what if the inner loop depends on i ?</p>
+<pre><code>for(int i = 0; i &lt n; i++){
+  for(int j = 0; j &lt i; j++){
+    cout &lt&lt j;
+  }
+}</code></pre>
+<p>In this case the total operations are 0 + 1 + 2 + ... + (n-1) = n(n-1)/2 which is still <code>O(n^2)</code>.</p>
+ 
+<h2>Consecutive blocks of code</h2>
+<p>When you have multiple separate blocks of code you take the maximum of all of them. So if you have a O(n) block followed by a O(n^2) block the overall complexity is <code>O(n^2)</code>. We only care about the part that contributes the most.</p>
+ 
+<h2>Recursive functions</h2>
+<p>Recursive functions are a bit more tricky. For a function that calls itself once with half the input each time like binary search the complexity is <code>O(log n)</code>. For something like merge sort that splits in half but does O(n) work at each level its <code>O(n log n)</code>.</p>
+ 
+<h2>Common complexties ordered from best to worst</h2>
+<ul>
+  <li><code>O(1)</code> - Best possible</li>
+  <li><code>O(log n)</code> - Very good</li>
+  <li><code>O(n)</code> - Good</li>
+  <li><code>O(n log n)</code> - Pretty ok</li>
+  <li><code>O(n^2)</code> - Acceptable for small n</li>
+  <li><code>O(2^n)</code> - Only for very small inputs</li>
+  <li><code>O(n!)</code> - Almost never usable</li>
+</ul>
+ 
+<blockquote>Getting good at estimating complexity comes with practice. After doing enough problems you'll start seeing the pattern instantly.</blockquote>
+`
+  },
 
  
 
