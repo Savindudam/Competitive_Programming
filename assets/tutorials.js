@@ -474,6 +474,68 @@ Many competitors use this code snippet since it is the shortest and the most wor
   
   
   `
+},
+{
+    slug: "time-complexity-intro",
+    title: "What is Time Complexity",
+    topic: "Algorithm Analysis",
+    difficulty: "Easy",
+    readMinutes: 8,
+    date: "2026-05-04",
+    excerpt: "Understanding how we mesure the efficency of our algorithms and why it matters in competitive programming.",
+    tags: ["time complexity", "Big O", "analysis"],
+    html: `
+<h2>So what even is Time Complexity ?</h2>
+<p>When we write a solution for a problem the main thing that matters is not just if its correct , it also needs to be fast enough to pass the time limit. This is where time complexity comes in. Basically time complexity is a way we mesure how slow or fast our algorithm is depending on the input size.</p>
+ 
+<h2>Big O Notation</h2>
+<p>We use something called Big O notation to express the time complexity of a algorithm. The most common ones you'll see in competitive programming are :</p>
+<ul>
+  <li><code>O(1)</code> - Constant time , doesnt matter how big the input is the execution takes same amount of time.</li>
+  <li><code>O(n)</code> - Linear time , if the input is n the algorithm runs roughly n steps.</li>
+  <li><code>O(n^2)</code> - Quadratic time , usually comes from two nested loops.</li>
+  <li><code>O(n log n)</code> - This is the sweet spot for most sorting algorithms.</li>
+  <li><code>O(log n)</code> - Very efficent , seen in binary search.</li>
+</ul>
+ 
+<h2>A simple example</h2>
+<p>Lets say you have an array of n elements and you want to find if a specific value exsists in it. The naive way is to loop through all elements one by one :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+  int n = 5;
+  int arr[] = {3, 1, 4, 1, 5};
+  int target = 4;
+  
+  for(int i = 0; i &lt n; i++){
+    if(arr[i] == target){
+      cout &lt&lt "Found at index " &lt&lt i;
+    }
+  }
+  return 0;
+}</code></pre>
+<p>This loop runs n times in the worst case so the time complexity is <code>O(n)</code>. Now if you had two nested loops like this :</p>
+<pre><code>for(int i = 0; i &lt n; i++){
+  for(int j = 0; j &lt n; j++){
+    // some operation
+  }
+}</code></pre>
+<p>This would be <code>O(n^2)</code> since for every element we loop through all elements again.</p>
+ 
+<h2>Why does this matter</h2>
+<p>In competitive programming problems usually have a constraint like n &lt= 10^5 or n &lt= 10^6. If you use a O(n^2) solution for n = 10^5 that means 10^10 operations which is way too slow. A rough rule of thumb is that a modern computer can do around 10^8 to 10^9 simple operations per second. So always check your complexity before submitting!</p>
+ 
+<h2>Things to remember</h2>
+<ul>
+  <li>Always think about the constraints before deciding which approach to use.</li>
+  <li>Usually O(n log n) or better is acceptable for n up to 10^6.</li>
+  <li>O(n^2) is ok when n is small, like n &lt= 1000 or less.</li>
+  <li>We only care about the dominant term so O(n^2 + n) is just O(n^2).</li>
+</ul>
+ 
+<blockquote>A correct solution that is too slow is still a wrong solution in competitive programming. Always analyze the complexity first.</blockquote>
+`
 }
 
  
