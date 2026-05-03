@@ -592,6 +592,88 @@ int main(){
 },
 
 {
+    slug: "time-complexity-loops-and-phases",
+    title: "Time Complexity Part 1 — Loops & Phases",
+    topic: "Time Complexity",
+    difficulty: "Easy",
+    readMinutes: 7,
+    date: "2026-05-03",
+    excerpt: "Understanding how to calculate time complexity from loops and consecutive phases of code.",
+    tags: ["time complexity", "big O", "loops", "analysis"],
+    html: `
+<p>Okay so we touched on time complexity earlier but now its time to go deeper. Time complexity is one of the most importent skills in cp because it lets u know if ur solution is fast enough before u even submit. Lets break it down properly.</p>
+
+<h2>What is time complexity</h2>
+<p>Time complexity is a way to describe how the running time of ur algorithm grows as the input size n grows. We write it as O(...) and inside the brackets we put a function of n. The key insight is that we only care about the <strong>order of magnitude</strong>, not the exact count.</p>
+<p>So if a loop runs exactly 3n times, or n+5 times, or n/2 times — all of these are O(n). We drop constants and lower order terms.</p>
+
+<h2>Single loop = O(n)</h2>
+<pre><code>for(int i = 1; i &lt= n; i++){
+  // code here runs n times
+}</code></pre>
+<p>Simple. One loop through n elements = O(n).</p>
+
+<h2>Nested loops = O(n^k)</h2>
+<p>If u have k nested loops each going up to n, the complexity is O(n^k) :</p>
+<pre><code>// Two nested loops = O(n^2)
+for(int i = 1; i &lt= n; i++){
+  for(int j = 1; j &lt= n; j++){
+    // runs n*n times
+  }
+}</code></pre>
+<pre><code>// Three nested loops = O(n^3)
+for(int i = 1; i &lt= n; i++){
+  for(int j = 1; j &lt= n; j++){
+    for(int k = 1; k &lt= n; k++){
+      // runs n*n*n times
+    }
+  }
+}</code></pre>
+<p>A tricky example — even if the inner loop doesnt start from 1 every time, the total is still O(n^2) :</p>
+<pre><code>for(int i = 1; i &lt= n; i++){
+  for(int j = i+1; j &lt= n; j++){
+    // total iterations ≈ n^2/2 = O(n^2)
+  }
+}</code></pre>
+
+<h2>Consecutive phases</h2>
+<p>If ur code has multiple phases one after another, the total complexity is just the <strong>slowest phase</strong> :</p>
+<pre><code>// Phase 1: O(n)
+for(int i = 1; i &lt= n; i++){ ... }
+
+// Phase 2: O(n^2)  
+for(int i = 1; i &lt= n; i++){
+  for(int j = 1; j &lt= n; j++){ ... }
+}
+
+// Phase 3: O(n)
+for(int i = 1; i &lt= n; i++){ ... }
+
+// Total = O(n^2) because the slowest phase dominates</code></pre>
+<p>This makes intuitive sense — the bottleneck determines the overall speed.</p>
+
+<h2>Multiple variables</h2>
+<p>Sometimes complexity depends on more than one variable. If u have nested loops one going to n and one going to m :</p>
+<pre><code>for(int i = 1; i &lt= n; i++){
+  for(int j = 1; j &lt= m; j++){
+    // O(n*m)
+  }
+}</code></pre>
+<p>This is O(nm) not O(n^2) because n and m might be very diferent values.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>O(1) = constant, doesnt depend on n at all.</li>
+  <li>One loop = O(n), two nested loops = O(n^2), three = O(n^3).</li>
+  <li>Consecutive phases — take the worst (slowest) one.</li>
+  <li>Always drop constants and lower order terms in big O notation.</li>
+</ul>
+
+<blockquote>Analyzing time complexity before coding is a habbit that seperates good cp programmers from great ones. Get comfortable with it and it becomes second nature.</blockquote>
+`
+  },
+
+{
     slug: "sorting-basics",
     title: "Sorting Algorithms In CP",
     topic: "Sorting",
