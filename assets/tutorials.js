@@ -674,6 +674,77 @@ for(int i = 1; i &lt= n; i++){ ... }
   },
 
 {
+    slug: "time-complexity-recursion",
+    title: "Time Complexity Part 2 — Recursion",
+    topic: "Time Complexity",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "How to figure out the time complexity of recursive functions with examples.",
+    tags: ["time complexity", "big O", "recursion", "analysis"],
+    html: `
+<p>Recursion complexity is a bit trickier than loop complexity but once u get the hang of it its actualy pretty logical. Lets work through it.</p>
+
+<h2>The basic idea</h2>
+<p>For a recursive funtion the time complexity = (number of function calls) * (work done per call). So u need to figure out both of these.</p>
+
+<h2>Example 1 — Linear recursion</h2>
+<pre><code>void f(int n){
+  if(n == 1) return;
+  f(n - 1);
+}</code></pre>
+<p>How many times does f get called? f(n) calls f(n-1) which calls f(n-2) ... all the way down to f(1). Thats n calls total. Each call does O(1) work. So total = n * O(1) = <strong>O(n)</strong>.</p>
+
+<h2>Example 2 — Exponential recursion</h2>
+<pre><code>void g(int n){
+  if(n == 1) return;
+  g(n - 1);
+  g(n - 1);
+}</code></pre>
+<p>This one is scarier. Each call makes TWO recursive calls. Lets count how many calls happen at each level :</p>
+<ul>
+  <li>Level 0 (n): 1 call</li>
+  <li>Level 1 (n-1): 2 calls</li>
+  <li>Level 2 (n-2): 4 calls</li>
+  <li>...</li>
+  <li>Level n-1 (1): 2^(n-1) calls</li>
+</ul>
+<p>Total = 1 + 2 + 4 + ... + 2^(n-1) = 2^n - 1 = <strong>O(2^n)</strong>. This is exponential and very slow for large n.</p>
+
+<h2>Binary search recursion</h2>
+<p>Binary search is a clasic example of O(log n) recursion :</p>
+<pre><code>// each call searches half the array
+void binarySearch(int arr[], int lo, int hi, int target){
+  if(lo > hi) return;
+  int mid = (lo + hi) / 2;
+  if(arr[mid] == target) return; // found
+  if(arr[mid] > target) binarySearch(arr, lo, mid-1, target);
+  else binarySearch(arr, mid+1, hi, target);
+}</code></pre>
+<p>Each call halvs the search range. Starting from n, after k steps we have n / 2^k elements. We stop when this reaches 1, so n / 2^k = 1 means k = log_2(n). So its O(log n) calls, each doing O(1) work = <strong>O(log n)</strong> total.</p>
+
+<h2>Merge sort recursion</h2>
+<p>Merge sort is O(n log n). Heres the intuition :</p>
+<ul>
+  <li>The recursion has O(log n) levels (it halves each time).</li>
+  <li>At each level, the total work done across all calls at that level is O(n).</li>
+  <li>So total = O(log n) levels * O(n) per level = <strong>O(n log n)</strong>.</li>
+</ul>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Recursion complexity = number of calls * work per call.</li>
+  <li>One recursive call per level → O(n).</li>
+  <li>Two recursive calls per level → O(2^n). Extremly dangerous, avoid unless nessasary.</li>
+  <li>Halving each call → O(log n).</li>
+  <li>Halving but processing all elements at each level → O(n log n).</li>
+</ul>
+
+<blockquote>When u write a recursive function always ask urself: how many times does it get called? If ur not sure, draw the call tree. It makes everything much clearer.</blockquote>
+`
+  },
+  
+{
     slug: "sorting-basics",
     title: "Sorting Algorithms In CP",
     topic: "Sorting",
