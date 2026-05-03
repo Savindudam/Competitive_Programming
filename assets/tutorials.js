@@ -1150,6 +1150,153 @@ while(!q.empty()){
 `
   },
 
+{
+    slug: "priority-queue-in-cpp",
+    title: "Priority Queue In C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 8,
+    date: "2026-05-05",
+    excerpt: "Learning about priority queue which is basically a heap and is one of the most usefull structures in cp.",
+    tags: ["priority queue", "heap", "STL", "data structures"],
+    html: `
+<p>Okay so we did stack and queue now lets talk about one of the most usefull data structres in competitive programming which is the priority queue. This one is a bit different from the normal queue. Instead of FIFO, a priority queue always gives u the largest (or smallest) element first regardless of the order u inserted them.</p>
+ 
+<h2>What is a priority queue</h2>
+<p>A priority queue is internally implemented as a heap data structure. The default priority queue in c++ is a max heap which means the largest element is always at the top. All insertions and removals are done in O(log n) time which is pretty efficeint.</p>
+ 
+<h2>Basic operations</h2>
+<ul>
+    <li><code>push(x)</code> - add element x</li>
+    <li><code>pop()</code> - remove the top (largest) element</li>
+    <li><code>top()</code> - see the top element without removing</li>
+    <li><code>empty()</code> - check if emptey</li>
+    <li><code>size()</code> - number of elements</li>
+</ul>
+ 
+<h2>Max heap example</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    priority_queue&ltint> pq;
+ 
+    pq.push(3);
+    pq.push(7);
+    pq.push(1);
+    pq.push(9);
+    pq.push(2);
+ 
+    while(!pq.empty()){
+        cout &lt&lt pq.top() &lt&lt " ";
+        pq.pop();
+    }
+ 
+    return 0;
+}</code></pre>
+<p>Output : 9 7 3 2 1. So no matter what order we inserted the elements, they always come out largest first. Pretty cool right.</p>
+ 
+<h2>Min heap - getting smallest first</h2>
+<p>In cp u often need the smallest element first instead of the largest. To make a min heap in c++ u do this :</p>
+<pre><code>priority_queue&ltint, vector&ltint>, greater&ltint>> minpq;
+ 
+minpq.push(3);
+minpq.push(7);
+minpq.push(1);
+ 
+cout &lt&lt minpq.top() &lt&lt "\n";</code></pre>
+<p>The output is 1 because its the smallest. The syntax looks a bit wierd with the three template arguements but just memorize it, u'll use it alot.</p>
+ 
+<h2>When to use priority queue in cp</h2>
+<p>The main place priority queue shows up is in Dijkstra's algorithm for finding shortest paths in a graph. But it also comes up whenever u need to repeatedly get the minimum or maximum element from a changing collection. For example :</p>
+<ul>
+    <li>Scheduling tasks by priority</li>
+    <li>Finding the k largest or k smallest elements</li>
+    <li>Greedy algorithms where u always pick the best availible option</li>
+    <li>Dijkstra's shortest path algorithm</li>
+</ul>
+ 
+<h2>Things to remember</h2>
+<ul>
+    <li>Default priority_queue is a max heap, largest element at top.</li>
+    <li>For min heap use <code>priority_queue&ltint, vector&ltint>, greater&ltint>></code>.</li>
+    <li>push and pop are O(log n).</li>
+    <li>pop() does not return the value, use top() first then pop().</li>
+</ul>
+ 
+<blockquote>Priority queue is one of those structres that once u learn it u'll keep finding new uses for. Especialy once u start doing graph problems.</blockquote>
+`
+  },
+ 
+  {
+    slug: "deque-in-cpp",
+    title: "Deque In C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-06",
+    excerpt: "What is a deque and why its useful when u need to add or remove elements from both ends efficently.",
+    tags: ["deque", "STL", "data structures"],
+    html: `
+<p>So we covered stack, queue and priority queue. Now theres one more structure worth knowing called the deque. The name stands for double ended queue and as u can guess it lets u add and remove elements from both the front and the back. This makes it more flexible than a regular queue where u can only add to back and remove from front.</p>
+ 
+<h2>Operations on deque</h2>
+<ul>
+    <li><code>push_back(x)</code> - add to the back</li>
+    <li><code>push_front(x)</code> - add to the front</li>
+    <li><code>pop_back()</code> - remove from the back</li>
+    <li><code>pop_front()</code> - remove from the front</li>
+    <li><code>front()</code> - see the front element</li>
+    <li><code>back()</code> - see the back element</li>
+    <li><code>size()</code> and <code>empty()</code> work the same as other containers</li>
+</ul>
+<p>And unlike a regular queue u can also acess elements by index with <code>dq[i]</code> which is nice.</p>
+ 
+<h2>Using deque in c++</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    deque&ltint> dq;
+ 
+    dq.push_back(5);
+    dq.push_back(6);
+    dq.push_front(3);
+    dq.push_front(1);
+ 
+    for(int x : dq){
+        cout &lt&lt x &lt&lt " ";
+    }
+    cout &lt&lt "\n";
+ 
+    dq.pop_front();
+    dq.pop_back();
+ 
+    cout &lt&lt dq.front() &lt&lt " " &lt&lt dq.back() &lt&lt "\n";
+ 
+    return 0;
+}</code></pre>
+<p>So after the pushes the deque contains 1 3 5 6. After popping from front and back we're left with 3 5.</p>
+ 
+<h2>When would u use a deque</h2>
+<p>Deque is honestly not used as often as vector or stack in basic cp but it becomes really importent in a specific technique called the sliding window minimum problem. The idea is u use a deque to keep track of the minimum element in a window of size k as the window slides across the array. This gives u an O(n) solution for a problem that would otherwise be O(nk).</p>
+<p>Also deque is used internally in the implementation of BFS in some cases, and whenever u genuinly need efficient operations at both ends of a sequence.</p>
+ 
+<h2>Deque vs vector</h2>
+<p>Vector is good for adding to the back but adding to the front is O(n) because it needs to shift all elements. Deque does both front and back operations in O(1). But deque uses a bit more memory and is slightly slower to access by index than vector so use vector when u only need back operations.</p>
+ 
+<h2>Things to remember</h2>
+<ul>
+    <li>Deque = double ended queue, efficient at both front and back.</li>
+    <li>push_front and pop_front are O(1) unlike vector.</li>
+    <li>U can still access by index with dq[i].</li>
+    <li>Main use case in cp is the sliding window minimum pattern.</li>
+</ul>
+ 
+<blockquote>Deque is one of those structures that u won't use every day but when u need it there is realy no substitute. Keep it in ur toolkit.</blockquote>
+`
+  },
+
  
 
  
