@@ -743,7 +743,7 @@ void binarySearch(int arr[], int lo, int hi, int target){
 <blockquote>When u write a recursive function always ask urself: how many times does it get called? If ur not sure, draw the call tree. It makes everything much clearer.</blockquote>
 `
   },
-  
+
 {
     slug: "sorting-basics",
     title: "Sorting Algorithms In CP",
@@ -821,7 +821,69 @@ sort(v.begin(), v.end());</code></pre>
 `
 },
  
-  {
+{
+    slug: "complexity-classes-explained",
+    title: "Complexity Classes Explained — O(1) To O(n!)",
+    topic: "Time Complexity",
+    difficulty: "Easy",
+    readMinutes: 8,
+    date: "2026-05-03",
+    excerpt: "A complete walkthrough of all the common time complexity classes in cp from constant time to factorial time.",
+    tags: ["time complexity", "big O", "complexity classes"],
+    html: `
+<p>In cp there are about 8-9 time complexity classes that u'll encounter regulerly. Knowing what each one means in practise — like what algorithm typicaly has that complexity and what input sizes it can handle — is absolutley essential. Lets go through all of them.</p>
+
+<h2>O(1) — Constant time</h2>
+<p>The fastest possible. The running time doesnt depend on the input size at all. Typicaly this is a formula or direct lookup. Example : computing n*(n+1)/2 is O(1) regardless of how large n is.</p>
+
+<h2>O(log n) — Logarithmic</h2>
+<p>Very fast. These algorithms halve the problem at each step. Binary search, balanced BST lookups, and anything that divides the input in half repeatadly. Can handle n up to 10^18 easily.</p>
+
+<h2>O(√n) — Square root</h2>
+<p>Slower than log n but faster than linear. Shows up in prime checking (check divisors up to √n) and some number theory algorithms. Can handle n up to about 10^12 in a second.</p>
+
+<h2>O(n) — Linear</h2>
+<p>Goes through the input a constant number of times. A single loop through the array. This is often the best u can hope for since u need to look at each element at least once. Handles n up to about 10^8 in a second.</p>
+
+<h2>O(n log n) — Linearithmic</h2>
+<p>The complexity of efficient sorting (merge sort, quicksort). Also appears when u use a sorted data structure (like set or map) inside a loop. Handles n up to about 10^6 comfortably.</p>
+
+<h2>O(n^2) — Quadratic</h2>
+<p>Two nested loops. Works fine for n up to about 5000. Bubble sort and insertion sort are O(n^2). For n = 10^4 its getting slow and for n = 10^5 its way too slow.</p>
+
+<h2>O(n^3) — Cubic</h2>
+<p>Three nested loops. Only feasible for small n (up to about 500). Floyd-Warshall all-pairs shortest path is a clasic O(n^3) algorithm.</p>
+
+<h2>O(2^n) — Exponential</h2>
+<p>Generates all subsets of the input. Only feasible for very small n (up to about 20-25). Brute force subset enumeration.</p>
+
+<h2>O(n!) — Factorial</h2>
+<p>Generates all permutations. Even slower than exponential. Only feasible for n up to about 10-12. Brute force permutation check.</p>
+
+<h2>The cheat sheet — input size vs what complexity u need</h2>
+<ul>
+  <li>n ≤ 10 → O(n!) is ok</li>
+  <li>n ≤ 20 → O(2^n) is ok</li>
+  <li>n ≤ 500 → O(n^3) is ok</li>
+  <li>n ≤ 5000 → O(n^2) is ok</li>
+  <li>n ≤ 10^6 → O(n log n) or O(n) needed</li>
+  <li>n is huge → O(log n) or O(1) needed</li>
+</ul>
+<p>This table is extremly usefull in contests. When u see the input constraints u can immediately narrow down what complexities are acceptable and work backwards to find the algorithm.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Always check input constraints first and figure out what complexity u can afford.</li>
+  <li>A morden computer does about 10^8 to 10^9 simple operations per second.</li>
+  <li>When u have a O(n log n) and a O(n^2) solution and n = 10^5, the O(n^2) will TLE.</li>
+  <li>O(2^n) and O(n!) are only for tiny inputs, never forget that.</li>
+</ul>
+
+<blockquote>The input constraints in a cp problem are basically a hint from the problem setter about what complexity they expect. Learn to read them that way and ur problem solving will get much better.</blockquote>
+`
+  },
+
+{
     slug: "binary-search-explained",
     title: "Binary Search in C++",
     topic: "Searching",
