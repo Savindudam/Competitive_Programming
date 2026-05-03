@@ -1001,7 +1001,7 @@ cout &lt&lt *it &lt&lt "\n";</code></pre>
     topic: "Data Structures",
     difficulty: "Easy",
     readMinutes: 6,
-    date: "2026-05-04",
+    date: "2026-05-03",
     excerpt: "Learning about the stack data structure and when to use it in your cp solutions.",
     tags: ["stack", "STL", "data structures"],
     html: `
@@ -1067,6 +1067,86 @@ s.pop();
 </ul>
  
 <blockquote>The stack is deceptivly simple but it shows up in so many problems. Once u start recognizing the pattern u'll see it everywhere.</blockquote>
+`
+  },
+
+{
+    slug: "queue-in-cpp",
+    title: "Queue In C++",
+    topic: "Data Structures",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-03",
+    excerpt: "Understanding the queue data structure in c++ and where u will use it in competitive programming.",
+    tags: ["queue", "STL", "data structures", "BFS"],
+    html: `
+<p>So we just covered the stack and now lets talk about its cousin the queue. While stack is LIFO, a queue is the opposite. It follows FIFO which stands for First In First Out. Think of it like a line of people waiting , the first person who joined the line is the first one to leave.</p>
+ 
+<h2>Basic queue operations</h2>
+<ul>
+    <li><code>push(x)</code> - add element x to the back of the queue</li>
+    <li><code>pop()</code> - remove the element from the front</li>
+    <li><code>front()</code> - see the front element without removing it</li>
+    <li><code>back()</code> - see the last element</li>
+    <li><code>empty()</code> - check if queue is emptey</li>
+    <li><code>size()</code> - number of elements</li>
+</ul>
+ 
+<h2>Using queue in c++</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    queue&ltint> q;
+ 
+    q.push(3);
+    q.push(7);
+    q.push(1);
+ 
+    cout &lt&lt q.front() &lt&lt "\n";
+ 
+    q.pop();
+ 
+    cout &lt&lt q.front() &lt&lt "\n";
+    cout &lt&lt q.size() &lt&lt "\n";
+ 
+    return 0;
+}</code></pre>
+<p>Output here is 3 then 7 then 2. Because 3 was pushed first so its at the front. After popping 3, now 7 is at the front.</p>
+ 
+<h2>Same issue as stack - pop() doesnt return</h2>
+<p>Just like stack, <code>pop()</code> in queue also does NOT return the value. So same pattern applies :</p>
+<pre><code>int val = q.front();
+q.pop();
+</code></pre>
+ 
+<h2>Where u actually use queues in cp</h2>
+<p>The most importent use of queue in competitive programing is in BFS which stands for Breadth First Search. BFS is a graph traversal algorithm and the queue is essentialy what makes it work. U add nodes to the queue, process the front one, add its unvisited neighbors to the back, and repeat until the queue is emptey.</p>
+<pre><code>queue&ltint> q;
+q.push(startNode);
+ 
+while(!q.empty()){
+    int node = q.front();
+    q.pop();
+ 
+    for(int neighbor : graph[node]){
+        if(!visited[neighbor]){
+            visited[neighbor] = true;
+            q.push(neighbor);
+        }
+    }
+}</code></pre>
+<p>We'll get into BFS in detail in its own tutorial but just know that queue is absolutly essential for it.</p>
+ 
+<h2>Things to remember</h2>
+<ul>
+    <li>Queue is FIFO - first in first out.</li>
+    <li>Use <code>front()</code> to see the front element before <code>pop()</code>.</li>
+    <li>Queue is the backbone of BFS so learn it well.</li>
+    <li>Always check <code>empty()</code> before accessing front or popping.</li>
+</ul>
+ 
+<blockquote>Queue might seem simple right now but when u get to graph problems u'll realise how cruicial it is. Make sure u know it cold.</blockquote>
 `
   },
 
