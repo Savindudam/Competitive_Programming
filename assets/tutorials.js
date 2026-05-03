@@ -932,7 +932,7 @@ sort(v.begin(), v.end());</code></pre>
 <blockquote>Developing good estimaton instinct takes time but its one of the highest-leverage skills in cp. After a while u'll be able to glance at constraints and know instinctively what algorithm class is needed.</blockquote>
 `
   },
-  
+
 {
     slug: "binary-search-explained",
     title: "Binary Search in C++",
@@ -1870,7 +1870,84 @@ int main(){
 `
   },
  
+{
+    slug: "maximum-subarray-sum",
+    title: "Maximum Subarray Sum — From O(n³) To O(n)",
+    topic: "Time Complexity",
+    difficulty: "Medium",
+    readMinutes: 10,
+    date: "2026-05-04",
+    excerpt: "A clasic problem that teaches u how to optimise an algorithm step by step — from brute force all the way to the linear Kadane algorithm.",
+    tags: ["arrays", "kadane", "optimization", "classic problem"],
+    html: `
+<p>The maximum subarray sum problem is one of the most famouse problems in algorithms. Its beautefull because there are three solutions with very different complexities and seeing how we optimise from one to the next teaches u a fundumental way of thinking.</p>
 
+<h2>The problem</h2>
+<p>Given an array of numbers (which may include negatives), find the maximum sum of any contiguous subarray. For example for the array :</p>
+<pre><code>[-1, 2, 4, -3, 5, 2, -5, 2]</code></pre>
+<p>The maximum subarray is [2, 4, -3, 5, 2] with sum 10.</p>
+<p>We assume an empty subarray is allowed so the minimum posible answer is 0.</p>
+
+<h2>Algorithm 1 — O(n³) brute force</h2>
+<p>The simplest approach : try every posible subarray, calculate its sum, keep track of the maximum :</p>
+<pre><code>int best = 0;
+for(int a = 0; a &lt n; a++){
+  for(int b = a; b &lt n; b++){
+    int sum = 0;
+    for(int k = a; k &lt= b; k++){
+      sum += arr[k];
+    }
+    best = max(best, sum);
+  }
+}
+cout &lt&lt best &lt&lt "\n";</code></pre>
+<p>Three nested loops = O(n^3). Fine for n = 100 but hoplesly slow for n = 10^4.</p>
+
+<h2>Algorithm 2 — O(n²) improvement</h2>
+<p>We can eliminate one loop by buiding the sum incrementaly as we extend the subarray to the right :</p>
+<pre><code>int best = 0;
+for(int a = 0; a &lt n; a++){
+  int sum = 0;
+  for(int b = a; b &lt n; b++){
+    sum += arr[b]; // extend subarray to the right
+    best = max(best, sum);
+  }
+}
+cout &lt&lt best &lt&lt "\n";</code></pre>
+<p>Now its O(n^2). Better, but still too slow for n = 10^5.</p>
+
+<h2>Algorithm 3 — O(n) Kadane's algorithm</h2>
+<p>This is the beautiful one. The key insight : for each position k, whats the maximum sum subarray that ENDS at position k? Either its just the element at k alone, or its the best subarray ending at k-1 plus the element at k. So we just keep a running sum and reset it to 0 when it goes negative :</p>
+<pre><code>int best = 0, sum = 0;
+for(int k = 0; k &lt n; k++){
+  sum = max(arr[k], sum + arr[k]);
+  best = max(best, sum);
+}
+cout &lt&lt best &lt&lt "\n";</code></pre>
+<p>One loop, O(n). This is Kadane's algorithm (named after J.B. Kadane) and it can handle n up to 10^7 or more easily.</p>
+
+<h2>Why does Kadane's work</h2>
+<p>At each position we decide : is it better to start a fresh subarray here (just take arr[k]), or extend the previous best subarray (sum + arr[k])? We always pick the better option. If sum becomes negative, adding more elements would only make things worse, so we effectivly restart from the current element.</p>
+
+<h2>Real performance comparison</h2>
+<p>Here is roughly how these perform in practice :</p>
+<ul>
+  <li>n = 1000: Algorithm 1 ≈ 0.1s, Algorithm 2 ≈ 0.0s, Algorithm 3 ≈ 0.0s</li>
+  <li>n = 10000: Algorithm 1 → TLE, Algorithm 2 ≈ 0.1s, Algorithm 3 ≈ 0.0s</li>
+  <li>n = 100000: Algorithm 1 → TLE, Algorithm 2 → TLE, Algorithm 3 ≈ 0.0s</li>
+</ul>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Always start with the brute force and then look for ways to eliminate redundent computation.</li>
+  <li>Kadane's algorithm is a clasic dp idea — use the previous answer to build the current one.</li>
+  <li>The key isnite is: maximum subarray ending at k = max(arr[k], best ending at k-1 + arr[k]).</li>
+  <li>Reset sum to arr[k] whenever sum + arr[k] < arr[k], i.e., when sum is negative.</li>
+</ul>
+
+<blockquote>This problem shows the entire arc of algorithm design in one small example. Brute force → optimization → insight → optimal. Learn to think this way and u can solve almost anything.</blockquote>
+`
+  },
 
 
 
