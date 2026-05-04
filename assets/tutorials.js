@@ -2300,4 +2300,73 @@ while(lo &lt hi){
 <blockquote>Binary search is deceptively simple but absolutley everywhere in cp. Once u internalise the "binary search on the answer" pattern ur entire way of approaching problems will change.</blockquote>
 `
   },
+
+{
+    slug: "bitset-in-cpp",
+    title: "Bitset In C++ — Efficient Bit Arrays",
+    topic: "Data Structures",
+    difficulty: "Medium",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "Learning about the bitset data structure in c++ and how it can massivly speed up certain algorithms.",
+    tags: ["bitset", "bits", "STL", "optimization", "data structures"],
+    html: `
+<p>So we have one more STL container to cover before we move on to sorting and algorithms — the bitset. This one is a bit niche but when it applies it can make a huge diference in performance.</p>
+
+<h2>What is a bitset</h2>
+<p>A bitset is an array where every element is either 0 or 1 (a bit). The special thing is that each element uses only 1 BIT of memory instead of a full int (32 bits). So a bitset of 1000 elements uses 1000 bits ≈ 125 bytes instead of 4000 bytes for an int array. Thats 32x less memory.</p>
+<p>But more importently, bitsets support bitwise operations on the ENTIRE array at once, which can be up to 64x faster than doing the same operations element by element.</p>
+
+<h2>Creating and using a bitset</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  bitset&lt10> s; // 10 bits, all zero by default
+  s[1] = 1;
+  s[3] = 1;
+  s[4] = 1;
+  s[7] = 1;
+  
+  cout &lt&lt s &lt&lt "\n";       // prints 0010011010 (from right to left)
+  cout &lt&lt s[4] &lt&lt "\n";    // 1
+  cout &lt&lt s[5] &lt&lt "\n";    // 0
+  cout &lt&lt s.count() &lt&lt "\n"; // 4 (number of 1-bits)
+  
+  return 0;
+}</code></pre>
+<p>U can also create a bitset from a string :</p>
+<pre><code>bitset&lt10> s(string("0010011010")); // from right to left</code></pre>
+
+<h2>Bitwise operations on bitsets</h2>
+<p>The real power comes from applying bit operations to entire bitsets at once :</p>
+<pre><code>bitset&lt10> a(string("0010110110"));
+bitset&lt10> b(string("1011011000"));
+
+cout &lt&lt (a & b) &lt&lt "\n"; // AND  : 0010010000
+cout &lt&lt (a | b) &lt&lt "\n"; // OR   : 1011111110
+cout &lt&lt (a ^ b) &lt&lt "\n"; // XOR  : 1001101110</code></pre>
+<p>These operations process all 10 (or 1000 or 10000) bits in parallel. Thats extreamly fast.</p>
+
+<h2>When is bitset usefull in cp</h2>
+<p>Bitset is most usefull when u have a dp problem where the "state" is a set of booleans and u need to do set operations. A clasic example is a subset-sum reachability problem : can u reach sum x using some subset of the elements? Instead of checking all subsets, u can use a bitset to track all reachable sums :</p>
+<pre><code>bitset&lt10001> dp;
+dp[0] = 1; // sum 0 is reachable (empty subset)
+for(int x : elements){
+  dp |= (dp &lt&lt x); // add x to all currently reachable sums
+}
+cout &lt&lt dp[target] &lt&lt "\n"; // 1 if target is reachable</code></pre>
+<p>This is O(n * max_sum / 64) instead of O(n * max_sum), a 64x speedup from using bitset instead of a bool array.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Bitset size must be a compile-time constant. U cant make bitset<n> where n is a variable.</li>
+  <li>count() returns the number of 1-bits — very usefull.</li>
+  <li>Bitwise AND, OR, XOR work on the entire bitset at once — this is the main advantage.</li>
+  <li>Use bitset when u have large boolean arrays and need to do bulk bitwise operations.</li>
+</ul>
+
+<blockquote>Bitset is one of those tools that seems weird until u see the right problem and then its the perfect solution. Keep it in ur memory for dp problems with set-like states.</blockquote>
+`
+  },
 ]
