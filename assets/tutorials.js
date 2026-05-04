@@ -2369,4 +2369,73 @@ cout &lt&lt dp[target] &lt&lt "\n"; // 1 if target is reachable</code></pre>
 <blockquote>Bitset is one of those tools that seems weird until u see the right problem and then its the perfect solution. Keep it in ur memory for dp problems with set-like states.</blockquote>
 `
   },
+
+{
+    slug: "policy-based-data-structures",
+    title: "Policy Based Data Structures — The Indexed Set",
+    topic: "Data Structures",
+    difficulty: "Medium",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "Learning about the g++ indexed_set which lets u do order statistics on a sorted set — find kth element and rank of an element in O(log n).",
+    tags: ["indexed set", "order statistics", "data structures", "advanced"],
+    html: `
+<p>Okay so this is a more advnaced topic but its realy usefull to know. G++ (the compiler we use for cp) has some extra data structures beyond the standard library called policy-based structures. The most usefull one is the indexed_set which is like a regular set but u can also access elements by their rank (position in sorted order).</p>
+
+<h2>Setting it up</h2>
+<p>To use the indexed_set u need some extra includes :</p>
+<pre><code>#include &ltbits/stdc++.h>
+#include &ltbext/pb_ds/assoc_container.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+
+typedef tree&ltint, null_type, less&ltint>, rb_tree_tag,
+        tree_order_statistics_node_update> indexed_set;</code></pre>
+<p>Yeah the typedef is pretty scary looking but u just have to memorize it. Just save this in ur template.</p>
+
+<h2>Basic usage</h2>
+<pre><code>int main(){
+  indexed_set s;
+  s.insert(2);
+  s.insert(3);
+  s.insert(7);
+  s.insert(9);
+  
+  // find_by_order(k): returns iterator to the k-th element (0-indexed)
+  cout &lt&lt *s.find_by_order(0) &lt&lt "\n"; // 2 (smallest)
+  cout &lt&lt *s.find_by_order(2) &lt&lt "\n"; // 7 (3rd smallest)
+  
+  // order_of_key(x): returns how many elements are strictly less than x
+  cout &lt&lt s.order_of_key(7) &lt&lt "\n"; // 2 (two elements smaller than 7: 2 and 3)
+  cout &lt&lt s.order_of_key(6) &lt&lt "\n"; // 2 (6 would be at position 2 if inserted)
+  
+  return 0;
+}</code></pre>
+
+<h2>Why is this usefull</h2>
+<p>The indexed_set lets u do two things in O(log n) that normally require much more complex structures :</p>
+<ul>
+  <li>Find the kth smallest element — very usefull in many order statistics problems.</li>
+  <li>Find the rank of an element — how many elements are smaller than x.</li>
+</ul>
+<p>For example, counting inversions in an array can be done elegantly using order_of_key. As u process elements left to right, for each element x, the number of inversions it forms with previous elements is the count of previous elements greater than x, which is (current size of set) - order_of_key(x).</p>
+
+<h2>Limitations</h2>
+<ul>
+  <li>Indexed_set only works with g++ compiler (which most cp judges use).</li>
+  <li>Like regular set, it cant have duplicates. For duplicates use a different approach.</li>
+  <li>The include path might be slightly diferent on some systems.</li>
+</ul>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>find_by_order(k) returns the k-th smallest element (0-indexed).</li>
+  <li>order_of_key(x) returns the number of elements strictly less than x.</li>
+  <li>Both operations are O(log n).</li>
+  <li>Add the typdef to ur template so u always have it ready.</li>
+</ul>
+
+<blockquote>The indexed_set is one of those things that when a problem needs it, nothing else can replace it as cleanly. Its a powerfull tool that very few beginers know about, which makes it a great advantage.</blockquote>
+`
+  },
 ]
