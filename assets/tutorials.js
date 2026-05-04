@@ -2864,4 +2864,72 @@ int main(){
 <blockquote>Backtracking is the art of exploring a huge space intelligently. The key insight is that u dont need to explore every dead end — as soon as u know a path leads nowhere, turn back and try something else.</blockquote>
 `
   },
+
+{
+    slug: "pruning-the-search",
+    title: "Pruning The Search — Making Backtracking Faster",
+    topic: "Complete Search",
+    difficulty: "Medium",
+    readMinutes: 8,
+    date: "2026-05-04",
+    excerpt: "How to add smart pruning to backtracking algorithms to make them dramatically faster — with a step by step example.",
+    tags: ["pruning", "backtracking", "optimization", "complete search"],
+    html: `
+<p>Backtracking is already smarter than pure brute force but the real power comes from adding good pruning. Pruning means detecting dead ends even earlier and cutting off more of the search tree. The difference can be massive — like going from 483 seconds to 0.6 seconds. Lets see how.</p>
+
+<h2>The grid path problem</h2>
+<p>Find the number of paths in an n×n grid from the upper-left corner to the lower-right corner that visit every cell exactly once. For a 7×7 grid the answer is 111,712.</p>
+<p>Basic backtracking without any pruning :</p>
+<ul>
+  <li>Running time: 483 seconds. Way too slow.</li>
+  <li>Recursive calls: 76 billion.</li>
+</ul>
+
+<h2>Pruning optimization 1 — symmetry</h2>
+<p>The first step from the start is either right or down. Any path going right first and any path going down first are mirror images (symmetric about the diagonal). So we can always force the first step to be down, and multiply the final count by 2. This cuts the work in half :</p>
+<ul>
+  <li>Running time: 244 seconds. Better but still too slow.</li>
+</ul>
+
+<h2>Pruning optimization 2 — early termination</h2>
+<p>If the path reaches the bottom-right corner before visiting all other cells, the path can never be completed. We can detect this and stop immediately :</p>
+<pre><code>if(position == bottom_right && cells_visited &lt total_cells) return;</code></pre>
+<ul>
+  <li>Running time: 119 seconds. Still not enough.</li>
+</ul>
+
+<h2>Pruning optimization 3 — wall detection</h2>
+<p>If the path touches a wall and can turn either left or right, the grid is split into two parts. Any unvisited cells in the smaller part can never be visited because the path cant reach both parts without crossing itself. This lets us terminate early :</p>
+<ul>
+  <li>Running time: 1.8 seconds. Getting much better!</li>
+</ul>
+
+<h2>Pruning optimization 4 — general split detection</h2>
+<p>A more general version: if the path cant continue forward but can turn left or right, this creates two seperate unvisited regions. Check if both regions are non-empty — if so, we cant visit all cells and can terminate :</p>
+<ul>
+  <li>Running time: 0.6 seconds. Done!</li>
+</ul>
+
+<h2>The dramatic improvement</h2>
+<p>So with these pruning steps we went from 483 seconds to 0.6 seconds — almost 1000x speedup! And the algorithm is still "just" backtracking. The pruning didnt change the fundamental approach, just added smarter early termination conditions.</p>
+
+<h2>General pruning strategies</h2>
+<ul>
+  <li><strong>Symmetry breaking</strong> : if the problem has symmetry, only explore one representative of each symmetric class.</li>
+  <li><strong>Feasibility checks</strong> : after each step, check if the current partial solution can still lead to a valid complete solution.</li>
+  <li><strong>Bound checks</strong> : if u're maximizing something, compute an upper bound on what u can still achieve. If this bound is already worse than ur current best, prune.</li>
+  <li><strong>Early goal detection</strong> : if u can detect that the goal is unreachable from the current state, prune immediately.</li>
+</ul>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Pruning is about detecting dead ends as EARLY as possible in the search tree.</li>
+  <li>The earlier in the tree u prune the more effective it is because u eliminate entire subtrees.</li>
+  <li>Each pruning rule is an additional observation about when partial solutions cant lead to valid completions.</li>
+  <li>Test ur pruning rules carefully to make sure they dont accidentally cut valid solutions.</li>
+</ul>
+
+<blockquote>Good pruning is as much art as science. It requires deep understanding of the problem structure. But when u find the right pruning rules the speedup can be absolutley dramatic — orders of magnitude faster.</blockquote>
+`
+  },
 ]
