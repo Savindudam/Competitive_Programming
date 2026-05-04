@@ -2932,4 +2932,41 @@ int main(){
 <blockquote>Good pruning is as much art as science. It requires deep understanding of the problem structure. But when u find the right pruning rules the speedup can be absolutley dramatic — orders of magnitude faster.</blockquote>
 `
   },
+
+{
+    slug: "greedy-coin-problem",
+    title: "Greedy Algorithms — The Coin Problem",
+    topic: "Greedy Algorithms",
+    difficulty: "Easy",
+    readMinutes: 7,
+    date: "2026-05-04",
+    excerpt: "Understanding the greedy approach and why it works for Euro coins but not for arbitrary coin systems.",
+    tags: ["greedy", "coin problem", "optimal", "counterexample"],
+    html: `
+<p>Greedy algorithms are a whole way of thinkin. U just always make the best lokin choice right now and never look back. No global planning, no backtracking. Sometimes it works perfectly, sometimes it fails misrably. The trick is knowin when to use it.</p>
+
+<h2>The coin problem</h2>
+<p>Imagine u have a set of coins (like 1, 2, 5, 10, 20, 50 cents) and u need to make a certian amount of money. U can use as many coins of each type as u want. What's the minimium number of coins needed?</p>
+<p>For Euro coins, the greedy strategy is simple: always take the largest coin that doesnt exceed the remaining amount. For 520 cents, u'd take two 200s, one 100, one 20 — total 4 coins. That's optimal.</p>
+
+<h2>Why it works for Euro coins</h2>
+<p>The greedy algorithm works here because of the special structure of the Euro coin system. U can prove that an optimal soltuion never has more than one coin of value 1, 5, 10, 50, 100 (because u could replace two of them with a larger coin). Also it never has more than two coins of 2 or 20 because three 2s = 5+1 and three 20s = 50+10. And it can't have the combination 2+2+1 because that's 5, nor 20+20+10 because that's 50. Using these rules, the largest sum u can make without using a coin of value x is less than x. So u have to use the largest coin, making the greedy choice inevitable.</p>
+
+<h2>When greedy fails — a counterexample</h2>
+<p>But what if the coin set is {1, 3, 4}? For sum 6, greedy picks 4+1+1 (3 coins), but the optimal is 3+3 (2 coins). So greedy is wrong here. The lesson: just becuase an algorithm seems smart doesnt mean it always works.</p>
+
+<h2>General coin problem</h2>
+<p>In the genral case, no simple greedy strategy is known to always be optimal. However, we'll later see that dynamic programming can solve any coin set correctly, tho it might be slower. For now, always test ur greedy idea on small cases before commiting to it.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Greedy = always pick the best imediate choice, no turning back.</li>
+  <li>Works great for Euro coins but not for arbitrary sets.</li>
+  <li>Always try to find a counterexmple — a small case where it fails.</li>
+  <li>If u can't prove it works, don't trust it in a contest.</li>
+</ul>
+
+<blockquote>Greedy algorithms are seductive because they're so fast and easy. But they'll bite u if u don't verify them carefully.</blockquote>
+`
+  },
 ]
