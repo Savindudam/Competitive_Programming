@@ -2685,4 +2685,183 @@ for(int b = 0; b &lt (1 &lt&lt n); b++){
 <blockquote>The bitmask subset trick is one of those things that blows ur mind the first time u see it. Once u internalize it u'll start seeing subset problems completly differently.</blockquote>
 `
   },
+
+{
+    slug: "generating-permutations",
+    title: "Generating All Permutations",
+    topic: "Complete Search",
+    difficulty: "Medium",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "Two ways to generate all permutations of a set — recursive backtracking and using the STL next_permutation function.",
+    tags: ["permutations", "recursion", "next_permutation", "complete search"],
+    html: `
+<p>Generating all permutations is another fundamental brute force technique. A permutation is just a specific ordering of all n elements. There are n! permutations of n elements. Lets look at two ways to generate them.</p>
+
+<h2>Method 1 — Recursive backtracking</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int n;
+vector&ltint> permutation;
+bool chosen[100]; // which elements are already in the permutation
+
+void search(){
+  if(permutation.size() == n){
+    // process current permutation
+    for(int x : permutation) cout &lt&lt x &lt&lt " ";
+    cout &lt&lt "\n";
+    return;
+  }
+  for(int i = 0; i &lt n; i++){
+    if(chosen[i]) continue; // skip already used elements
+    chosen[i] = true;
+    permutation.push_back(i);
+    search();
+    chosen[i] = false;
+    permutation.pop_back();
+  }
+}
+
+int main(){
+  n = 3;
+  memset(chosen, false, sizeof(chosen));
+  search();
+  return 0;
+}</code></pre>
+<p>Output :</p>
+<pre><code>0 1 2
+0 2 1
+1 0 2
+1 2 0
+2 0 1
+2 1 0</code></pre>
+<p>All 6 = 3! permutations are generaeted. The chosen array prevents us from using the same element twice in one permutation.</p>
+
+<h2>Method 2 — next_permutation (cleaner!)</h2>
+<p>C++ has a built in function that generates permutations in lexicographic order. Start from the sorted permutation and call next_permutation until it wraps around :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  vector&ltint> perm = {0, 1, 2}; // start from sorted
+  do {
+    for(int x : perm) cout &lt&lt x &lt&lt " ";
+    cout &lt&lt "\n";
+  } while(next_permutation(perm.begin(), perm.end()));
+  return 0;
+}</code></pre>
+<p>Much cleaner! next_permutation returns false when it reaches the last permutation (descending order) and wraps back to the first, which is when the do-while loop ends.</p>
+
+<h2>When to use which</h2>
+<ul>
+  <li>Use next_permutation when u just need to enumerate all permutations cleanly without any extra logic.</li>
+  <li>Use the recursive approach when u need to prune (cut off branches early) based on partial permutations. This can make backtracking much faster in practice.</li>
+</ul>
+
+<h2>n! grows VERY fast</h2>
+<p>Remember: 10! = 3,628,800 which is feasible. 12! ≈ 479 million which might be borderline. 13! ≈ 6 billion which is definitly too slow. So permutation enumeration only works for very small n.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>n! permutations exist for n elements. Only feasible for n ≤ about 12.</li>
+  <li>next_permutation is the easiest way to enumerate permutations — use it whenever u can.</li>
+  <li>Make sure to start from the SORTED array when using next_permutation or u'll miss some permutations.</li>
+  <li>The recursive approach is more flexible but harder to implement correctly.</li>
+</ul>
+
+<blockquote>next_permutation is one of those STL gems that saves u a lot of work. Before implementing ur own permutation generator always check if next_permutation can do the job.</blockquote>
+`
+  },
+
+{
+    slug: "backtracking-explained",
+    title: "Backtracking — Smarter Brute Force",
+    topic: "Complete Search",
+    difficulty: "Medium",
+    readMinutes: 9,
+    date: "2026-05-04",
+    excerpt: "Understanding backtracking — how to make brute force smarter by abandoning dead-end paths early.",
+    tags: ["backtracking", "recursion", "n-queens", "complete search"],
+    html: `
+<p>Backtracking is an improved version of complete search. Instead of generating ALL possible solutions and then filtering, backtracking builds solutions incrementally and abandons a path as soon as it detects that the path cant lead to a valid solution. This pruing can make a huge diference in practise.</p>
+
+<h2>The general idea</h2>
+<p>Backtracking works like this :</p>
+<ol>
+  <li>Build the solution step by step.</li>
+  <li>At each step, check if the current partial solution can still lead to a valid complete solution.</li>
+  <li>If yes, continue building.</li>
+  <li>If no, BACKTRACK — undo the last choice and try a different one.</li>
+</ol>
+
+<h2>Classic example — N-Queens problem</h2>
+<p>Place n queens on an n×n chessboard so that no two queens attack each other (no same row, column or diagonal). How many ways are there?</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int n;
+int count_solutions = 0;
+bool column[20], diag1[40], diag2[40];
+
+void search(int row){
+  if(row == n){
+    count_solutions++;
+    return;
+  }
+  for(int col = 0; col &lt n; col++){
+    // check if this position is safe
+    if(column[col] || diag1[col+row] || diag2[col-row+n-1]) continue;
+    
+    // place queen
+    column[col] = diag1[col+row] = diag2[col-row+n-1] = true;
+    search(row + 1);
+    // remove queen (backtrack)
+    column[col] = diag1[col+row] = diag2[col-row+n-1] = false;
+  }
+}
+
+int main(){
+  n = 8;
+  memset(column, false, sizeof(column));
+  memset(diag1, false, sizeof(diag1));
+  memset(diag2, false, sizeof(diag2));
+  search(0);
+  cout &lt&lt count_solutions &lt&lt "\n"; // 92 for n=8
+  return 0;
+}</code></pre>
+
+<h2>How backtracking prunes the search</h2>
+<p>When we try to place a queen in a column that already has a queen (or on a diagonal that's already attacked), we skip that option immediately with <code>continue</code>. This "pruning" means we never explore the subtree below that bad choice. For the 8-queens problem this eliminates the vast majority of combinations before we ever fully build them.</p>
+
+<h2>Why it's faster than brute force</h2>
+<p>Brute force for 8-queens would try all 8^8 ≈ 16 million placements. With backtracking the actual number of recursive calls is much smaller because invalid partial placements are cut off early. The earlier we detect a conflict the more we prune.</p>
+
+<h2>The backtrack pattern</h2>
+<pre><code>void search(int step){
+  if(solution_complete()){
+    process_solution();
+    return;
+  }
+  for(each possible choice at this step){
+    if(choice_is_valid()){
+      make_choice();
+      search(step + 1);
+      undo_choice(); // BACKTRACK
+    }
+  }
+}</code></pre>
+<p>This is the general template. The "undo_choice" step is what makes it backtracking — u always restore the state so u can try the next option.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Backtracking = recursive complete search with early termination of invalid paths.</li>
+  <li>Always undo ur changes after the recursive call — this is the "backtrack" step.</li>
+  <li>The earlier u detect invalid states the more efficent ur backtracking is.</li>
+  <li>For n-queens n=8 gives 92 solutions. n=16 gives 14,772,512 — already takes about a minute.</li>
+</ul>
+
+<blockquote>Backtracking is the art of exploring a huge space intelligently. The key insight is that u dont need to explore every dead end — as soon as u know a path leads nowhere, turn back and try something else.</blockquote>
+`
+  },
 ]
