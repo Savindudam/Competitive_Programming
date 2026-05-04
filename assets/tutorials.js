@@ -2438,4 +2438,66 @@ typedef tree&ltint, null_type, less&ltint>, rb_tree_tag,
 <blockquote>The indexed_set is one of those things that when a problem needs it, nothing else can replace it as cleanly. Its a powerfull tool that very few beginers know about, which makes it a great advantage.</blockquote>
 `
   },
+
+{
+    slug: "complete-search-intro",
+    title: "Complete Search — Brute Force Done Right",
+    topic: "Complete Search",
+    difficulty: "Easy",
+    readMinutes: 6,
+    date: "2026-05-04",
+    excerpt: "Introduction to complete search — when brute force is the right approach and how to implement it cleanly.",
+    tags: ["complete search", "brute force", "recursion", "strategy"],
+    html: `
+<p>So u might think brute force is always bad and u should always look for clever algorithms. But actualy in cp, if the input size is small enough, brute force is totaly valid and is often the fastest way to get a correct solution. The key is knowing when u can get away with it.</p>
+
+<h2>What is complete search</h2>
+<p>Complete search (also called brute force) means generating and checking ALL possible solutions. There are no shortcuts — u just try everything. If the number of posible solutions is small enough (say less than 10^7 or so), this approach will pass in time.</p>
+
+<h2>When to use complete search</h2>
+<p>Look at the input constraints. If n ≤ 20, u can probably afford O(2^n). If n ≤ 12, u can probaly afford O(n!). If the brute force complexity fits within your time budget, just do it — its almost always easier to implement correctly than a clever algorithm.</p>
+<p>In contests, "brute force first" is a legitmate strategy. Sometimes the intended solution IS brute force. Sometimes its fast enough for partial marks even if theres a smarter solution. And sometimes implementing the brute force first helps u understand the problem better and find the clever solution.</p>
+
+<h2>Simple example — all pairs</h2>
+<p>Find all pairs in an array whose sum equals a target value :</p>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n, target;
+  cin >> n >> target;
+  vector&ltint> arr(n);
+  for(int i = 0; i &lt n; i++) cin >> arr[i];
+  
+  int count = 0;
+  for(int i = 0; i &lt n; i++){
+    for(int j = i+1; j &lt n; j++){
+      if(arr[i] + arr[j] == target) count++;
+    }
+  }
+  cout &lt&lt count &lt&lt "\n";
+  return 0;
+}</code></pre>
+<p>O(n^2). For n ≤ 5000 this is fine. For n = 10^6 you'd need a smarter approach, but for small n this is perffect.</p>
+
+<h2>Complete search vs greedy vs dp</h2>
+<p>The general strategy in cp is :</p>
+<ul>
+  <li>If the constraints allow brute force → use complete search, its simplest.</li>
+  <li>If u need something smarter → think about greedy (always make the locally optimal choice).</li>
+  <li>If greedy doesnt work → dynamic programming (remember and reuse subproblem answers).</li>
+</ul>
+<p>Always start by checking if complete search is fast enough. Many beginers waste time looking for clever solutions when brute force would have passed.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Complete search is completely valid when the constraints are small enough.</li>
+  <li>Check if brute force complexity fits in ~10^8 operations — if yes, just do it.</li>
+  <li>Even when brute force is too slow, implemennting it first helps u understand the problem.</li>
+  <li>n ≤ 20 → think 2^n. n ≤ 12 → think n!.</li>
+</ul>
+
+<blockquote>"Premature optimization is the root of all evil." Sometimes the straightfoward brute force is the right answer. Dont make things complicated when they dont need to be.</blockquote>
+`
+  },
 ]
