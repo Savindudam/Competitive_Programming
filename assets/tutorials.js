@@ -2934,41 +2934,71 @@ int main(){
   },
 
 {
-    slug: "greedy-coin-problem",
-    title: "Greedy Algorithms — The Coin Problem",
-    topic: "Greedy Algorithms",
-    difficulty: "Easy",
-    readMinutes: 7,
+    slug: "dp-coin-problem",
+    title: "Dynamic Programming Coin Problem",
+    topic: "Dynamic Programming",
+    difficulty: "Medium",
+    readMinutes: 10,
     date: "2026-05-04",
-    excerpt: "Understanding the greedy approach and why it works for Euro coins but not for arbitrary coin systems.",
-    tags: ["greedy", "coin problem", "optimal", "counterexample"],
+    excerpt: "Solving the coin problem properly with DP — recursion, memoization, and the iterative bottom-up way. Works for any coin set.",
+    tags: ["dp", "coin problem", "memoization", "recursion"],
     html: `
-<p>Greedy algorithms are a whole way of thinkin. U just always make the best lokin choice right now and never look back. No global planning, no backtracking. Sometimes it works perfectly, sometimes it fails misrably. The trick is knowin when to use it.</p>
+<p>Alright so the greedy coin approach only worked for some coin systems. Now we'll solve it the right way using dynamic programming. This method works for <strong>any</strong> set of coins and finds the minimum number of coins needed to make a sum.</p>
 
-<h2>The coin problem</h2>
-<p>Imagine u have a set of coins (like 1, 2, 5, 10, 20, 50 cents) and u need to make a certian amount of money. U can use as many coins of each type as u want. What's the minimium number of coins needed?</p>
-<p>For Euro coins, the greedy strategy is simple: always take the largest coin that doesnt exceed the remaining amount. For 520 cents, u'd take two 200s, one 100, one 20 — total 4 coins. That's optimal.</p>
+<h2>Recursive Formulation</h2>
+<p>Let <code>solve(x)</code> be the minimum coins to form sum <code>x</code>. If <code>x &lt 0</code>, return infinity. If <code>x == 0</code>, return 0. Otherwise, try each coin <code>c</code>: <code>solve(x) = min(solve(x - c) + 1)</code>. This explores all possibilities, but alone it's exponential — too slow.</p>
 
-<h2>Why it works for Euro coins</h2>
-<p>The greedy algorithm works here because of the special structure of the Euro coin system. U can prove that an optimal soltuion never has more than one coin of value 1, 5, 10, 50, 100 (because u could replace two of them with a larger coin). Also it never has more than two coins of 2 or 20 because three 2s = 5+1 and three 20s = 50+10. And it can't have the combination 2+2+1 because that's 5, nor 20+20+10 because that's 50. Using these rules, the largest sum u can make without using a coin of value x is less than x. So u have to use the largest coin, making the greedy choice inevitable.</p>
+<h2>Memoization — The DP Trick</h2>
+<p>We store already computed values in an array <code>ready</code> and <code>value</code>. When <code>solve(x)</code> is called, if <code>ready[x]</code> is true, just return <code>value[x]</code>. This way each sum is computed only once. The time drops to <strong>O(nk)</strong> where n is the target and k is the number of coins.</p>
 
-<h2>When greedy fails — a counterexample</h2>
-<p>But what if the coin set is {1, 3, 4}? For sum 6, greedy picks 4+1+1 (3 coins), but the optimal is 3+3 (2 coins). So greedy is wrong here. The lesson: just becuase an algorithm seems smart doesnt mean it always works.</p>
+<pre><code>#include &ltbits/stdc++.h&gt
+using namespace std;
+const int INF = 1e9;
+vector&ltint&gt coins;
+bool ready[10000];
+int value[10000];
 
-<h2>General coin problem</h2>
-<p>In the genral case, no simple greedy strategy is known to always be optimal. However, we'll later see that dynamic programming can solve any coin set correctly, tho it might be slower. For now, always test ur greedy idea on small cases before commiting to it.</p>
+int solve(int x){
+  if(x &lt 0) return INF;
+  if(x == 0) return 0;
+  if(ready[x]) return value[x];
+  int best = INF;
+  for(int c : coins){
+    best = min(best, solve(x - c) + 1);
+  }
+  value[x] = best;
+  ready[x] = true;
+  return best;
+}</code></pre>
 
-<h2>Things to remember</h2>
+<h2>Iterative Version (Bottom-Up)</h2>
+<p>Most cp'ers prefer this as it's faster and shorter. We build an array <code>dp[0...n]</code>:</p>
+<pre><code>vector&ltint&gt dp(n+1, INF);
+dp[0] = 0;
+for(int x = 1; x <= n; x++){
+  for(int c : coins){
+    if(x - c >= 0)
+      dp[x] = min(dp[x], dp[x - c] + 1);
+  }
+}
+cout << dp[n] << "\\n";</code></pre>
+
+<h2>Constructing the Solution</h2>
+<p>To actually know which coins to use, keep another array <code>first[x]</code> that stores the coin chosen for sum x. Then backtrack from n using <code>first</code>.</p>
+
+<h2>Things to Rememeber</h2>
 <ul>
-  <li>Greedy = always pick the best imediate choice, no turning back.</li>
-  <li>Works great for Euro coins but not for arbitrary sets.</li>
-  <li>Always try to find a counterexmple — a small case where it fails.</li>
-  <li>If u can't prove it works, don't trust it in a contest.</li>
+  <li>DP is like brute force with memory — it's a game changer.</li>
+  <li>Always think about the state and the recurrence relation.</li>
+  <li>Iterative DP often has smaller constant factors than memoization.</li>
+  <li>Make sure your base cases are correct, especialy <code>dp[0]</code>.</li>
 </ul>
 
-<blockquote>Greedy algorithms are seductive because they're so fast and easy. But they'll bite u if u don't verify them carefully.</blockquote>
+<blockquote>DP may seem magic at first, but once you master the art of defining a good state, problems open up. The coin problem is the perfet starting point.</blockquote>
 `
   },
+
+
 
 {
     slug: "greedy-scheduling",
