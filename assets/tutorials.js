@@ -2934,39 +2934,67 @@ int main(){
   },
 
 {
-    slug: "greedy-coin-problem",
-    title: "Greedy Algorithms — The Coin Problem",
+    slug: "greedy-scheduling",
+    title: "Scheduling Algorithims — Picking The Most Events",
     topic: "Greedy Algorithms",
     difficulty: "Easy",
-    readMinutes: 7,
+    readMinutes: 8,
     date: "2026-05-04",
-    excerpt: "Understanding the greedy approach and why it works for Euro coins but not for arbitrary coin systems.",
-    tags: ["greedy", "coin problem", "optimal", "counterexample"],
+    excerpt: "How to choose as many non-overlaping events as possible with a simple greedy stratgy that always picks the earliest finish.",
+    tags: ["greedy", "scheduling", "events", "optimization"],
     html: `
-<p>Greedy algorithms are a whole way of thinkin. U just always make the best lokin choice right now and never look back. No global planning, no backtracking. Sometimes it works perfectly, sometimes it fails misrably. The trick is knowin when to use it.</p>
+<p>Umm so after the coin problem we move on to another classic greedy problem — event scheduling. The problem is simpl: u have <strong>n</strong> events each with a start and end time, and u wanna attend as many events as possable but u can't be in two at once. Which ones do u pick?</p>
 
-<h2>The coin problem</h2>
-<p>Imagine u have a set of coins (like 1, 2, 5, 10, 20, 50 cents) and u need to make a certian amount of money. U can use as many coins of each type as u want. What's the minimium number of coins needed?</p>
-<p>For Euro coins, the greedy strategy is simple: always take the largest coin that doesnt exceed the remaining amount. For 520 cents, u'd take two 200s, one 100, one 20 — total 4 coins. That's optimal.</p>
+<h2>The Greedy Insight</h2>
+<p>The key idea is to <strong>always choose the event that ends the earliest</strong> among the remaining ones. This leaves the maximum room for future events. It's counter-intuitive at first becuase you might think short events are better, but length doesn't matter, only the finishing time does.</p>
 
-<h2>Why it works for Euro coins</h2>
-<p>The greedy algorithm works here because of the special structure of the Euro coin system. U can prove that an optimal soltuion never has more than one coin of value 1, 5, 10, 50, 100 (because u could replace two of them with a larger coin). Also it never has more than two coins of 2 or 20 because three 2s = 5+1 and three 20s = 50+10. And it can't have the combination 2+2+1 because that's 5, nor 20+20+10 because that's 50. Using these rules, the largest sum u can make without using a coin of value x is less than x. So u have to use the largest coin, making the greedy choice inevitable.</p>
+<h2>Algorithim Steps</h2>
+<ol>
+  <li>Sort all events by their ending time in incresing order.</li>
+  <li>Initialize a variable <code>last_end = -1</code> (or a very small number).</li>
+  <li>Iterate through the sorted events: if the event's start time is <strong>greater or equal</strong> to <code>last_end</code>, select it and update <code>last_end</code> to this event's end time.</li>
+  <li>The number of selected events is the answer.</li>
+</ol>
 
-<h2>When greedy fails — a counterexample</h2>
-<p>But what if the coin set is {1, 3, 4}? For sum 6, greedy picks 4+1+1 (3 coins), but the optimal is 3+3 (2 coins). So greedy is wrong here. The lesson: just becuase an algorithm seems smart doesnt mean it always works.</p>
+<h2>Implimentation in C++</h2>
+<pre><code>#include &ltbits/stdc++.h&gt
+using namespace std;
 
-<h2>General coin problem</h2>
-<p>In the genral case, no simple greedy strategy is known to always be optimal. However, we'll later see that dynamic programming can solve any coin set correctly, tho it might be slower. For now, always test ur greedy idea on small cases before commiting to it.</p>
+int main(){
+  int n; cin >> n;
+  vector&ltpair&ltint,int&gt&gt events(n);
+  for(int i=0;i&ltn;i++) cin>>events[i].first>>events[i].second;
 
-<h2>Things to remember</h2>
+  // sort by ending time (second element)
+  sort(events.begin(), events.end(), [](auto &a, auto &b){
+    return a.second &lt b.second;
+  });
+
+  int cnt = 0, last = -1;
+  for(auto &e : events){
+    if(e.first &gt= last){
+      cnt++;
+      last = e.second;
+    }
+  }
+  cout &lt&lt cnt &lt&lt "\\n";
+  return 0;
+}</code></pre>
+<p>This runs in <code>O(n log n)</code> becuase of the sorting, and the loop is <code>O(n)</code>. Very efficeint.</p>
+
+<h2>Why It Works</h2>
+<p>Suppose you have an optimal soluton that does NOT pick the event with the earliest finish. You can always swap the first event of that solution with the earliest-finishing event without making the solution invalid. By induction, always picking the earliest finish is optimal.</p>
+
+<h2>Things to Rememeber</h2>
 <ul>
-  <li>Greedy = always pick the best imediate choice, no turning back.</li>
-  <li>Works great for Euro coins but not for arbitrary sets.</li>
-  <li>Always try to find a counterexmple — a small case where it fails.</li>
-  <li>If u can't prove it works, don't trust it in a contest.</li>
+  <li>Always sort by <strong>end time</strong>, not start time or duration.</li>
+  <li>Greedy works here becuase the problem has the "optimal substructure" property — a choice that looks good immedaitely leads to global optimum.</li>
+  <li>Watch out for the condition: <code>e.first &gt= last</code>, not just <code>&gt</code>, because events can start exactly when the previous ends.</li>
+  <li>This is one of the most common contest problems, so be sure u know it cold.</li>
 </ul>
 
-<blockquote>Greedy algorithms are seductive because they're so fast and easy. But they'll bite u if u don't verify them carefully.</blockquote>
+<blockquote>Greedy scheduling is elegent: always pick the event that gives u the most future freedom. Once u see the logic, it becomes second nature.</blockquote>
 `
   },
+
 ]
