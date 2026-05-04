@@ -2022,5 +2022,194 @@ int main(){
 `
   },
 
+{
+    slug: "merge-sort-explained",
+    title: "Merge Sort — The O(n log n) Sorting Algorithm",
+    topic: "Sorting",
+    difficulty: "Medium",
+    readMinutes: 8,
+    date: "2026-05-04",
+    excerpt: "Understanding merge sort — how the divide and conquer approach achives O(n log n) sorting and why thats the best we can do with comparisons.",
+    tags: ["sorting", "merge sort", "divide and conquer", "O(n log n)"],
+    html: `
+<p>So we saw that O(n^2) sorts like bubble sort are too slow for large inputs. We need something better. Merge sort is one of the most elegent algorithms ever designed and it achives O(n log n) which is much faster. Lets understand it properly.</p>
 
+<h2>The idea — divide and conquer</h2>
+<p>Merge sort uses a techneque called divide and conquer. The idea is :</p>
+<ol>
+  <li>If the array has only 1 element, its already sorted — done.</li>
+  <li>Split the array into two halves.</li>
+  <li>Recursivly sort each half.</li>
+  <li>Merge the two sorted halves into one sorted array.</li>
+</ol>
+<p>The magic is in step 4. Merging two SORTED arrays into one sorted array can be done in O(n) time. And the recursion means we only need to do log n levels of splitting.</p>
+
+<h2>The merge step</h2>
+<p>Given two sorted arrays, merging them is simple — always take the smaller of the two front elements :</p>
+<pre><code>vector&ltint> merge(vector&ltint>& left, vector&ltint>& right){
+  vector&ltint> result;
+  int i = 0, j = 0;
+  while(i &lt left.size() && j &lt right.size()){
+    if(left[i] &lt= right[j]){
+      result.push_back(left[i++]);
+    } else {
+      result.push_back(right[j++]);
+    }
+  }
+  while(i &lt left.size()) result.push_back(left[i++]);
+  while(j &lt right.size()) result.push_back(right[j++]);
+  return result;
+}</code></pre>
+
+<h2>Full merge sort implementation</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+vector&ltint> mergeSort(vector&ltint> arr){
+  if(arr.size() &lt= 1) return arr;
+  
+  int mid = arr.size() / 2;
+  vector&ltint> left(arr.begin(), arr.begin() + mid);
+  vector&ltint> right(arr.begin() + mid, arr.end());
+  
+  left = mergeSort(left);
+  right = mergeSort(right);
+  
+  // merge the two sorted halves
+  vector&ltint> result;
+  int i = 0, j = 0;
+  while(i &lt left.size() && j &lt right.size()){
+    if(left[i] &lt= right[j]) result.push_back(left[i++]);
+    else result.push_back(right[j++]);
+  }
+  while(i &lt left.size()) result.push_back(left[i++]);
+  while(j &lt right.size()) result.push_back(right[j++]);
+  return result;
+}
+
+int main(){
+  vector&ltint> arr = {3, 1, 6, 8, 2, 5, 2, 9};
+  arr = mergeSort(arr);
+  for(int x : arr) cout &lt&lt x &lt&lt " ";
+  cout &lt&lt "\n";
+  return 0;
+}</code></pre>
+
+<h2>Why is it O(n log n)</h2>
+<p>The recursion tree has O(log n) levels (since we halve each time). At each level, the total amount of merging work across all calls is O(n) (because we process each element exactly once per level). So total = O(log n) levels * O(n) per level = <strong>O(n log n)</strong>.</p>
+
+<h2>Sorting lower bound</h2>
+<p>Can we do better than O(n log n)? For comparison-based sorting (where the only thing u can do is compare elements), the answer is NO. The proof involves a decision tree argument — there are n! posible orderings and u need at least log_2(n!) ≈ n log n comparisons to distinguish between them. So O(n log n) is optimal for comparison sort.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Merge sort is O(n log n) guaranteed, even in the worst case.</li>
+  <li>The key operation is merging two sorted arrays in O(n) time.</li>
+  <li>In practice, use the built-in sort() function in cp — it implements a simillar algorithm (introsort) and is highy optimised.</li>
+  <li>O(n log n) is the theoreticall best for comparison-based sorting.</li>
+</ul>
+
+<blockquote>Merge sort is a perfect example of how a clever insight (merging is easy if both parts are already sorted) can transform an O(n^2) problem into an O(n log n) one. This kind of thinking is what separates good algorithms from great ones.</blockquote>
+`
+  },
+
+{
+    slug: "sorting-in-cpp-sort-function",
+    title: "Sorting In C++ — The sort() Function",
+    topic: "Sorting",
+    difficulty: "Easy",
+    readMinutes: 7,
+    date: "2026-05-04",
+    excerpt: "How to use c++'s built in sort function to sort arrays, vectors, strings, pairs, and custom structs.",
+    tags: ["sorting", "sort", "STL", "cpp", "pairs"],
+    html: `
+<p>Okay so in real cp u almost never implement ur own sorting algorithm. The c++ standard library has a sort() function that is extreamly fast and handles almost everything u need. Lets learn all the ways to use it.</p>
+
+<h2>Basic sorting — vectors and arrays</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  // sorting a vector
+  vector&ltint> v = {4, 2, 5, 3, 5, 8, 3};
+  sort(v.begin(), v.end());
+  // v is now [2, 3, 3, 4, 5, 5, 8]
+  
+  // sorting in reverse order
+  sort(v.rbegin(), v.rend());
+  // v is now [8, 5, 5, 4, 3, 3, 2]
+  
+  // sorting a regular array
+  int a[] = {4, 2, 5, 3, 5, 8, 3};
+  int n = 7;
+  sort(a, a + n);
+  
+  return 0;
+}</code></pre>
+<p>sort() takes two iterators: the begining and one-past-the-end of the range to sort. It uses O(n log n) introsort internally.</p>
+
+<h2>Sorting strings</h2>
+<pre><code>string s = "monkey";
+sort(s.begin(), s.end());
+// s is now "ekmnoy" (alphabetical order of characters)</code></pre>
+<p>Sorting a string sorts its characters alphabeticaly. Pretty usefull sometimes.</p>
+
+<h2>Sorting pairs</h2>
+<p>Pairs sort first by their first element, then by second if first elements are equal :</p>
+<pre><code>vector&ltpair&ltint,int>> v;
+v.push_back({1, 5});
+v.push_back({2, 3});
+v.push_back({1, 2});
+sort(v.begin(), v.end());
+// result: (1,2), (1,5), (2,3)</code></pre>
+<p>This default behavior is extreamly usefull. For example to sort events by start time and break ties by end time, just make a pair<startTime, endTime> and sort.</p>
+
+<h2>Sorting with a custom comparator</h2>
+<p>Sometimes u need a custom sorting order. U can pass a comparison funtion :</p>
+<pre><code>// Sort strings by length, then alphabetically
+bool comp(string a, string b){
+  if(a.size() != b.size()) return a.size() &lt b.size();
+  return a &lt b;
+}
+
+vector&ltstring> words = {"banana", "apple", "fig", "kiwi"};
+sort(words.begin(), words.end(), comp);</code></pre>
+<p>Or u can use a lambda which is often cleaner :</p>
+<pre><code>sort(words.begin(), words.end(), [](string a, string b){
+  if(a.size() != b.size()) return a.size() &lt b.size();
+  return a &lt b;
+});</code></pre>
+
+<h2>Sorting custom structs</h2>
+<p>For a custom struct u define an operator< inside it :</p>
+<pre><code>struct Point {
+  int x, y;
+  bool operator&lt(const Point& p) const {
+    if(x != p.x) return x &lt p.x;
+    return y &lt p.y;
+  }
+};
+
+vector&ltPoint> points = {{3,2}, {1,5}, {1,2}};
+sort(points.begin(), points.end());
+// sorted: (1,2), (1,5), (3,2)</code></pre>
+
+<h2>Counting sort for small values</h2>
+<p>When u know all values are between 0 and some small constant C, counting sort runs in O(n + C) which is faster than O(n log n) :</p>
+<pre><code>int cnt[1001] = {};
+for(int i = 0; i &lt n; i++) cnt[arr[i]]++;
+// now reconstruct sorted array from cnt</code></pre>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>sort(v.begin(), v.end()) is all u need for most cases.</li>
+  <li>sort(v.rbegin(), v.rend()) sorts in descending order.</li>
+  <li>Pairs sort by first element first, then second — use this to ur advantage.</li>
+  <li>Custom comparators must return true if a should come BEFORE b.</li>
+  <li>Never implement ur own sort in cp — the built in one is always faster and correct.</li>
+</ul>
+
+<blockquote>Mastering the sort function with all its variations is one of those things that immediately makes ur cp code cleaner and faster. Learn it well and use it constantly.</blockquote>
+`
+  },
 ]
