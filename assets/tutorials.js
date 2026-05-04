@@ -2934,6 +2934,43 @@ int main(){
   },
 
 {
+    slug: "greedy-coin-problem",
+    title: "Greedy Algorithms — The Coin Problem",
+    topic: "Greedy Algorithms",
+    difficulty: "Easy",
+    readMinutes: 7,
+    date: "2026-05-04",
+    excerpt: "Understanding the greedy approach and why it works for Euro coins but not for arbitrary coin systems.",
+    tags: ["greedy", "coin problem", "optimal", "counterexample"],
+    html: `
+<p>Greedy algorithms are a whole way of thinkin. U just always make the best lokin choice right now and never look back. No global planning, no backtracking. Sometimes it works perfectly, sometimes it fails misrably. The trick is knowin when to use it.</p>
+
+<h2>The coin problem</h2>
+<p>Imagine u have a set of coins (like 1, 2, 5, 10, 20, 50 cents) and u need to make a certian amount of money. U can use as many coins of each type as u want. What's the minimium number of coins needed?</p>
+<p>For Euro coins, the greedy strategy is simple: always take the largest coin that doesnt exceed the remaining amount. For 520 cents, u'd take two 200s, one 100, one 20 — total 4 coins. That's optimal.</p>
+
+<h2>Why it works for Euro coins</h2>
+<p>The greedy algorithm works here because of the special structure of the Euro coin system. U can prove that an optimal soltuion never has more than one coin of value 1, 5, 10, 50, 100 (because u could replace two of them with a larger coin). Also it never has more than two coins of 2 or 20 because three 2s = 5+1 and three 20s = 50+10. And it can't have the combination 2+2+1 because that's 5, nor 20+20+10 because that's 50. Using these rules, the largest sum u can make without using a coin of value x is less than x. So u have to use the largest coin, making the greedy choice inevitable.</p>
+
+<h2>When greedy fails — a counterexample</h2>
+<p>But what if the coin set is {1, 3, 4}? For sum 6, greedy picks 4+1+1 (3 coins), but the optimal is 3+3 (2 coins). So greedy is wrong here. The lesson: just becuase an algorithm seems smart doesnt mean it always works.</p>
+
+<h2>General coin problem</h2>
+<p>In the genral case, no simple greedy strategy is known to always be optimal. However, we'll later see that dynamic programming can solve any coin set correctly, tho it might be slower. For now, always test ur greedy idea on small cases before commiting to it.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Greedy = always pick the best imediate choice, no turning back.</li>
+  <li>Works great for Euro coins but not for arbitrary sets.</li>
+  <li>Always try to find a counterexmple — a small case where it fails.</li>
+  <li>If u can't prove it works, don't trust it in a contest.</li>
+</ul>
+
+<blockquote>Greedy algorithms are seductive because they're so fast and easy. But they'll bite u if u don't verify them carefully.</blockquote>
+`
+  },
+
+{
     slug: "greedy-scheduling",
     title: "Scheduling Algorithims — Picking The Most Events",
     topic: "Greedy Algorithms",
@@ -2996,5 +3033,56 @@ int main(){
 <blockquote>Greedy scheduling is elegent: always pick the event that gives u the most future freedom. Once u see the logic, it becomes second nature.</blockquote>
 `
   },
+
+  {
+    slug: "greedy-tasks-deadlines",
+    title: "Tasks And Deadlines — Order By Duration",
+    topic: "Greedy Algorithms",
+    difficulty: "Easy",
+    readMinutes: 7,
+    date: "2026-05-04",
+    excerpt: "Understanding a suprising greedy rule: perform tasks sorted by their durations to maximize total score when deadlines give points.",
+    tags: ["greedy", "deadlines", "durations", "scheduling"],
+    html: `
+<p>So another tricky greedy problem is when u have tasks, each with a duration and a deadline. U get points equal to <code>deadline - finishTime</code>, where finishTime is the moment u complete the task. U can do tasks in any order, and u start at time 0. What ordre gives the highest total points?</p>
+
+<h2>The Weird Truth</h2>
+<p>The greedy rule is extremly simple: just perform the tasks in <strong>incresing order of duration</strong>. U don't even look at the deadlines for ordering! The reason is that swapping two consecutive tasks where the first takes longer than the second always improves the total score, because the later one will be delayed more.</p>
+
+<h2>Example</h2>
+<p>Tasks: A (dur 4, deadline 2), B (dur 3, deadline 5), C (dur 2, deadline 7). Sorted by duration: C, B, A. Let's compute finish times: C ends at 2, B at 5, A at 9. Points: C: 7-2=5, B: 5-5=0, A: 2-9=-7, total -2. Any other order gives worse.</p>
+
+<h2>Implimenting in C++</h2>
+<pre><code>#include &ltbits/stdc++.h&gt
+using namespace std;
+
+int main(){
+  vector&ltpair&ltint,int&gt&gt tasks; // {duration, deadline}
+  // read tasks...
+  sort(tasks.begin(), tasks.end()); // sorts by duration first
+  long long time = 0, score = 0;
+  for(auto &t : tasks){
+    time += t.first;
+    score += t.second - time;
+  }
+  cout &lt&lt score &lt&lt "\\n";
+  return 0;
+}</code></pre>
+
+<h2>Why Not By Deadline?</h2>
+<p>It's tempting to sort by deadline (ealiest deadline first), but that fails becuase a long task with a tight deadline can ruin everything. The duration-based order minimizes the sum of completion times, which is what maters here.</p>
+
+<h2>Things to Rememeber</h2>
+<ul>
+  <li>Always sort by <strong>duration</strong> (shortest job first).</li>
+  <li>The deadlines only affect the points calculation, not the ordering.</li>
+  <li>Points can be negative, so use <code>long long</code> for the score.</li>
+  <li>This problem is less common but still a good greedy exercise.</li>
+</ul>
+
+<blockquote>It's crazy but ignoring deadlines for ordering is exactly the right move. Greedy is full of such suprises.</blockquote>
+`
+  },
+
 
 ]
