@@ -2212,4 +2212,92 @@ for(int i = 0; i &lt n; i++) cnt[arr[i]]++;
 <blockquote>Mastering the sort function with all its variations is one of those things that immediately makes ur cp code cleaner and faster. Learn it well and use it constantly.</blockquote>
 `
   },
+
+{
+    slug: "binary-search-basics",
+    title: "Binary Search — Searching In O(log n)",
+    topic: "Sorting",
+    difficulty: "Easy",
+    readMinutes: 8,
+    date: "2026-05-04",
+    excerpt: "Learning binary search — one of the most important and usefull algorithms in competitive programming.",
+    tags: ["binary search", "searching", "sorted arrays", "O(log n)"],
+    html: `
+<p>Binary search is one of those algorithms that every competitive programmer uses almost every single contest. Its simple but extremly powerfull and shows up in many difrent forms. Lets master it.</p>
+
+<h2>The basic idea</h2>
+<p>Binary search finds an element in a SORTED array in O(log n) time. The idea is simple : always look at the middle element. If its the target, done. If the target is smaller, search the left half. If the target is larger, search the right half. Each step eliminates half the remaining elements.</p>
+
+<h2>Implementation</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  vector&ltint> arr = {1, 3, 5, 7, 9, 11, 13};
+  int target = 7;
+  
+  int lo = 0, hi = arr.size() - 1;
+  while(lo &lt= hi){
+    int mid = (lo + hi) / 2;
+    if(arr[mid] == target){
+      cout &lt&lt "Found at index " &lt&lt mid &lt&lt "\n";
+      break;
+    } else if(arr[mid] > target){
+      hi = mid - 1;
+    } else {
+      lo = mid + 1;
+    }
+  }
+  return 0;
+}</code></pre>
+<p>This is the clasic binary search implementaion. The active search range is [lo, hi] and we narrow it down each iteration.</p>
+
+<h2>C++ built in binary search functions</h2>
+<p>The STL has three binary search functions that work on sorted arrays/vectors :</p>
+<pre><code>vector&ltint> v = {2, 3, 3, 4, 5, 5, 8};
+
+// lower_bound: first element >= x
+auto it1 = lower_bound(v.begin(), v.end(), 3);
+cout &lt&lt *it1 &lt&lt "\n"; // 3 (first occurrence)
+cout &lt&lt (it1 - v.begin()) &lt&lt "\n"; // index 1
+
+// upper_bound: first element > x
+auto it2 = upper_bound(v.begin(), v.end(), 3);
+cout &lt&lt (it2 - v.begin()) &lt&lt "\n"; // index 3
+
+// Count occurrences of 3:
+cout &lt&lt (it2 - it1) &lt&lt "\n"; // 2</code></pre>
+<p>These are extreamly usefull and u should use them instead of implementing binary search manualy when possible.</p>
+
+<h2>Checking if an element exists</h2>
+<pre><code>auto k = lower_bound(v.begin(), v.end(), x) - v.begin();
+if(k &lt v.size() && v[k] == x){
+  // x exists in v
+}</code></pre>
+
+<h2>Binary search on the answer</h2>
+<p>This is a more advanced but extremly powerfull idea. Sometimes the answer to a problem is a number and u can binary search on it. The trick is to write a function ok(x) that checks if x is a valid answer. Then binary search for the smallest x where ok(x) is true :</p>
+<pre><code>int lo = 0, hi = 1e9;
+while(lo &lt hi){
+  int mid = (lo + hi) / 2;
+  if(ok(mid)){
+    hi = mid;
+  } else {
+    lo = mid + 1;
+  }
+}
+// lo is now the smallest valid answer</code></pre>
+<p>This pattern shows up in many cp problems. If u can write an ok() function that checks a value efficiently, u can use binary search to find the optimal answer in O(log(max_answer) * time_for_ok).</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>Binary search only works on SORTED data. Always make sure ur array is sorted first.</li>
+  <li>lower_bound returns the first element >= x, upper_bound returns first element > x.</li>
+  <li>Binary search on the answer is a powerfull pattern — look for problems where u can define an ok() function.</li>
+  <li>Be carefull with overflow when computing mid: use <code>(lo + hi) / 2</code> carefully since lo+hi might overflow int.</li>
+</ul>
+
+<blockquote>Binary search is deceptively simple but absolutley everywhere in cp. Once u internalise the "binary search on the answer" pattern ur entire way of approaching problems will change.</blockquote>
+`
+  },
 ]
