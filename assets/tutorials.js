@@ -2500,4 +2500,106 @@ int main(){
 <blockquote>"Premature optimization is the root of all evil." Sometimes the straightfoward brute force is the right answer. Dont make things complicated when they dont need to be.</blockquote>
 `
   },
+
+{
+    slug: "generating-subsets-method1",
+    title: "Generating Subsets Part 1 — Recursive Method",
+    topic: "Complete Search",
+    difficulty: "Medium",
+    readMinutes: 7,
+    date: "2026-05-06",
+    excerpt: "How to generate all subsets of a set using recursion — a fundamental technique in cp.",
+    tags: ["subsets", "recursion", "complete search", "backtracking"],
+    html: `
+<p>Generating all subsets of a set is a fundamental operation in cp. It comes up in brute force solutions, backtracking, and dp problems. Lets start with the recursive approach which is the most intuitive.</p>
+
+<h2>The idea</h2>
+<p>For each element we make a binary choice : include it in the current subset or exclude it. If we make this choice for every element we get all posible subsets. A set of n elements has 2^n subsets.</p>
+
+<h2>Recursive implementation</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int n;
+vector&ltint> subset;
+
+void search(int k){
+  if(k == n){
+    // process the current subset
+    cout &lt&lt "{ ";
+    for(int x : subset) cout &lt&lt x &lt&lt " ";
+    cout &lt&lt "}\n";
+    return;
+  }
+  // Option 1: dont include element k
+  search(k + 1);
+  // Option 2: include element k
+  subset.push_back(k);
+  search(k + 1);
+  subset.pop_back(); // backtrack
+}
+
+int main(){
+  n = 3;
+  search(0);
+  return 0;
+}</code></pre>
+<p>Output for n=3 :</p>
+<pre><code>{ }
+{ 2 }
+{ 1 }
+{ 1 2 }
+{ 0 }
+{ 0 2 }
+{ 0 1 }
+{ 0 1 2 }</code></pre>
+<p>All 8 = 2^3 subsets are generated. The order might look weird at first but every subset appears exacty once.</p>
+
+<h2>Understanding the recursion tree</h2>
+<p>At each call to search(k) we either skip element k (go left) or include it (go right). The calls form a binary tree with 2^n leaves. Each leaf represents one complete subset.</p>
+<pre><code>search(0)
+├── search(1)      [0 not included]
+│   ├── search(2)  [0,1 not included]
+│   │   ├── {} 
+│   │   └── {2}
+│   └── search(2)  [1 included]
+│       ├── {1}
+│       └── {1,2}
+└── search(1)      [0 included]
+    ├── search(2)  [0 included, 1 not]
+    │   ├── {0}
+    │   └── {0,2}
+    └── search(2)  [0,1 included]
+        ├── {0,1}
+        └── {0,1,2}</code></pre>
+
+<h2>Using it for actual elements (not just indices)</h2>
+<pre><code>int n;
+vector&ltint> elements, subset;
+
+void search(int k){
+  if(k == n){
+    // do something with current subset
+    return;
+  }
+  search(k + 1);                    // exclude elements[k]
+  subset.push_back(elements[k]);    // include elements[k]
+  search(k + 1);
+  subset.pop_back();
+}</code></pre>
+
+<h2>Time and space complexity</h2>
+<p>Time: O(2^n) since we generate 2^n subsets and each subset takes O(n) to process in the worst case. So O(n * 2^n) total. Space: O(n) for the recursion stack and the current subset.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li>At each step make two recursive calls: one including the current element, one excluding.</li>
+  <li>Always remember to pop_back after the include branch — this is the backtracking step.</li>
+  <li>Total subsets = 2^n. Only use this when n ≤ about 20-25.</li>
+  <li>The "subset" vector at the base case contains the current subset to process.</li>
+</ul>
+
+<blockquote>Recursive subset generation is a fundemental pattern in cp. Once it feels natural, backtracking algorithms become much easier to understand and implement.</blockquote>
+`
+  },
 ]
