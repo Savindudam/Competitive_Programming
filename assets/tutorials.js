@@ -2507,7 +2507,7 @@ int main(){
     topic: "Complete Search",
     difficulty: "Medium",
     readMinutes: 7,
-    date: "2026-05-06",
+    date: "2026-05-04",
     excerpt: "How to generate all subsets of a set using recursion — a fundamental technique in cp.",
     tags: ["subsets", "recursion", "complete search", "backtracking"],
     html: `
@@ -2600,6 +2600,89 @@ void search(int k){
 </ul>
 
 <blockquote>Recursive subset generation is a fundemental pattern in cp. Once it feels natural, backtracking algorithms become much easier to understand and implement.</blockquote>
+`
+  },
+
+{
+    slug: "generating-subsets-method2",
+    title: "Generating Subsets Part 2 — Bitmask Method",
+    topic: "Complete Search",
+    difficulty: "Medium",
+    readMinutes: 7,
+    date: "2026-05-04",
+    excerpt: "How to generate all subsets using bitmasks — a faster and more compact approach that uses the binary representaion of integers.",
+    tags: ["subsets", "bitmask", "bits", "complete search"],
+    html: `
+<p>The recursive approach for subsets is clean but theres another way thats often more compact and faster — using bitmasks. This method exploits the fact that each subset of n elements can be represented as an n-bit integer.</p>
+
+<h2>The key insight</h2>
+<p>A set of n elements has 2^n subsets. Integers from 0 to 2^n - 1 also have 2^n values. So we can create a 1-to-1 mapping : the integer b represents the subset where element i is included if and only if bit i of b is 1.</p>
+<p>For example with n=3 elements {A, B, C} :</p>
+<ul>
+  <li>b = 0 = 000 in binary → {} (empty set)</li>
+  <li>b = 1 = 001 → {A} (bit 0 is set)</li>
+  <li>b = 2 = 010 → {B} (bit 1 is set)</li>
+  <li>b = 3 = 011 → {A, B}</li>
+  <li>b = 5 = 101 → {A, C}</li>
+  <li>b = 7 = 111 → {A, B, C}</li>
+</ul>
+
+<h2>Implementation</h2>
+<pre><code>#include &ltbits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n = 3;
+  vector&ltint> elements = {10, 20, 30};
+  
+  for(int b = 0; b &lt (1 &lt&lt n); b++){
+    // b represents one subset
+    vector&ltint> subset;
+    for(int i = 0; i &lt n; i++){
+      if(b & (1 &lt&lt i)){ // if bit i of b is set
+        subset.push_back(elements[i]);
+      }
+    }
+    // process subset
+    cout &lt&lt "{ ";
+    for(int x : subset) cout &lt&lt x &lt&lt " ";
+    cout &lt&lt "}\n";
+  }
+  return 0;
+}</code></pre>
+<p>The outer loop goes through all 2^n values of b. The inner loop checks each bit of b. <code>b & (1 << i)</code> is the key operation — it checks if bit i of b is 1.</p>
+
+<h2>Why this is useful</h2>
+<p>The bitmask approach is often more compact than the recursive approach and avoids the overhead of recursion. Its also very natural for problems that inherently involve sets and set operations, because u can do set union with <code>a | b</code>, intersection with <code>a & b</code> etc.</p>
+
+<h2>Example — subset sum check</h2>
+<pre><code>vector&ltint> arr = {3, 1, 4, 1, 5};
+int n = arr.size();
+int target = 9;
+
+for(int b = 0; b &lt (1 &lt&lt n); b++){
+  int sum = 0;
+  for(int i = 0; i &lt n; i++){
+    if(b & (1 &lt&lt i)) sum += arr[i];
+  }
+  if(sum == target){
+    cout &lt&lt "Found subset with sum " &lt&lt target &lt&lt "\n";
+    break;
+  }
+}</code></pre>
+
+<h2>Bitmask vs recursive — which to use</h2>
+<p>Both generate all 2^n subsets. The bitmask approach is usualy slightly more compact and iterative (no recursion overhead). The recursive approach is more flexable and easier to extend with pruning (see backtracking tutorial). For simple subset enumeration use bitmask, for backtracking use recursion.</p>
+
+<h2>Things to remember</h2>
+<ul>
+  <li><code>1 &lt&lt n</code> equals 2^n. Loop from 0 to (1<<n) - 1 to go through all subsets.</li>
+  <li><code>b & (1 &lt&lt i)</code> checks if bit i of b is set — this means element i is in the subset.</li>
+  <li>n must be at most 20-25 for this to be feasible.</li>
+  <li>Bitmask subset enum is cleaner and faster for problems that dont need pruning.</li>
+</ul>
+
+<blockquote>The bitmask subset trick is one of those things that blows ur mind the first time u see it. Once u internalize it u'll start seeing subset problems completly differently.</blockquote>
 `
   },
 ]
